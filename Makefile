@@ -33,7 +33,8 @@ generate-data:
 	python data/generate.py
 
 install-dev:
-	@command -v uv >/dev/null 2>&1 && uv pip install -e ".[dev]" || pip install -e ".[dev]"
+	@test -d .venv || (echo "Creating .venv..." && uv venv .venv)
+	uv pip install -e ".[dev]" --python .venv/bin/python
 
 docker-up:
 	docker compose up -d
