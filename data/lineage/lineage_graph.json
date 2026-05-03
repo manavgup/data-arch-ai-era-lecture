@@ -1,0 +1,310 @@
+{
+  "nodes": [
+    {
+      "id": "raw.transactions",
+      "layer": "raw",
+      "source": "core_banking_extract",
+      "format": "csv",
+      "description": "Daily transaction extract from core banking system",
+      "refresh": "daily",
+      "owner": "data_engineering"
+    },
+    {
+      "id": "raw.customers",
+      "layer": "raw",
+      "source": "crm_extract",
+      "format": "csv",
+      "description": "Customer master data from CRM system",
+      "refresh": "daily",
+      "owner": "data_engineering"
+    },
+    {
+      "id": "raw.accounts",
+      "layer": "raw",
+      "source": "core_banking_extract",
+      "format": "csv",
+      "description": "Account master data from core banking",
+      "refresh": "daily",
+      "owner": "data_engineering"
+    },
+    {
+      "id": "raw.branches",
+      "layer": "raw",
+      "source": "branch_management_system",
+      "format": "csv",
+      "description": "Branch reference data",
+      "refresh": "weekly",
+      "owner": "data_engineering"
+    },
+    {
+      "id": "raw.kyc_records",
+      "layer": "raw",
+      "source": "kyc_platform_extract",
+      "format": "json",
+      "description": "KYC verification records and status",
+      "refresh": "daily",
+      "owner": "compliance_data"
+    },
+    {
+      "id": "raw.sanctions_lists",
+      "layer": "raw",
+      "source": "sanctions_vendor_feed",
+      "format": "xml",
+      "description": "Consolidated sanctions lists from vendor",
+      "refresh": "daily",
+      "owner": "compliance_data"
+    },
+    {
+      "id": "raw.wire_transfers",
+      "layer": "raw",
+      "source": "swift_gateway",
+      "format": "csv",
+      "description": "International wire transfer messages",
+      "refresh": "real-time",
+      "owner": "data_engineering"
+    },
+    {
+      "id": "curated.transactions_clean",
+      "layer": "curated",
+      "source": "spark_etl_job_001",
+      "format": "parquet",
+      "description": "Deduplicated transactions with normalized currencies",
+      "refresh": "daily",
+      "owner": "data_engineering"
+    },
+    {
+      "id": "curated.customer_360",
+      "layer": "curated",
+      "source": "mdm_pipeline",
+      "format": "parquet",
+      "description": "Unified customer view with resolved entities",
+      "refresh": "daily",
+      "owner": "mdm_team"
+    },
+    {
+      "id": "curated.accounts_enriched",
+      "layer": "curated",
+      "source": "spark_etl_job_002",
+      "format": "parquet",
+      "description": "Accounts enriched with customer and branch data",
+      "refresh": "daily",
+      "owner": "data_engineering"
+    },
+    {
+      "id": "curated.kyc_status_current",
+      "layer": "curated",
+      "source": "spark_etl_job_003",
+      "format": "parquet",
+      "description": "Current KYC status with expiry tracking",
+      "refresh": "daily",
+      "owner": "compliance_data"
+    },
+    {
+      "id": "curated.wire_transfers_enriched",
+      "layer": "curated",
+      "source": "spark_etl_job_004",
+      "format": "parquet",
+      "description": "Wire transfers enriched with country risk scores",
+      "refresh": "daily",
+      "owner": "data_engineering"
+    },
+    {
+      "id": "curated.sanctions_reference",
+      "layer": "curated",
+      "source": "sanctions_etl_pipeline",
+      "format": "parquet",
+      "description": "Normalized sanctions list for screening",
+      "refresh": "daily",
+      "owner": "compliance_data"
+    },
+    {
+      "id": "consumed.branch_summary_quarterly",
+      "layer": "consumed",
+      "source": "dbt_model_branch_agg",
+      "format": "iceberg",
+      "description": "Quarterly branch performance summary",
+      "refresh": "quarterly",
+      "owner": "analytics_team"
+    },
+    {
+      "id": "consumed.aml_alerts",
+      "layer": "consumed",
+      "source": "aml_scoring_pipeline",
+      "format": "parquet",
+      "description": "AML risk alerts from transaction monitoring",
+      "refresh": "daily",
+      "owner": "aml_operations"
+    },
+    {
+      "id": "consumed.customer_risk_scores",
+      "layer": "consumed",
+      "source": "risk_scoring_model_v3",
+      "format": "parquet",
+      "description": "Customer ML/TF risk scores",
+      "refresh": "daily",
+      "owner": "aml_operations"
+    },
+    {
+      "id": "consumed.regulatory_reports",
+      "layer": "consumed",
+      "source": "reporting_pipeline",
+      "format": "csv",
+      "description": "FINTRAC regulatory report data (LCTRs, STRs, EFTRs)",
+      "refresh": "daily",
+      "owner": "compliance_data"
+    },
+    {
+      "id": "consumed.customer_segmentation",
+      "layer": "consumed",
+      "source": "ml_segmentation_model",
+      "format": "parquet",
+      "description": "Customer segmentation for marketing and risk",
+      "refresh": "monthly",
+      "owner": "analytics_team"
+    },
+    {
+      "id": "consumed.kyc_dashboard_data",
+      "layer": "consumed",
+      "source": "dbt_model_kyc_metrics",
+      "format": "iceberg",
+      "description": "KYC compliance metrics for dashboard",
+      "refresh": "daily",
+      "owner": "compliance_data"
+    }
+  ],
+  "edges": [
+    {
+      "from": "raw.transactions",
+      "to": "curated.transactions_clean",
+      "transform": "dedup + schema enforcement + currency normalization to CAD (Bank of Canada daily rates)"
+    },
+    {
+      "from": "raw.customers",
+      "to": "curated.customer_360",
+      "transform": "entity resolution + dedup + PII standardization + address normalization"
+    },
+    {
+      "from": "raw.accounts",
+      "to": "curated.accounts_enriched",
+      "transform": "join with customer_360 and branches + status derivation + balance validation"
+    },
+    {
+      "from": "raw.branches",
+      "to": "curated.accounts_enriched",
+      "transform": "branch reference data lookup for region and manager enrichment"
+    },
+    {
+      "from": "raw.kyc_records",
+      "to": "curated.kyc_status_current",
+      "transform": "flatten JSON + compute expiry dates + derive current status"
+    },
+    {
+      "from": "raw.sanctions_lists",
+      "to": "curated.sanctions_reference",
+      "transform": "XML parsing + normalization + alias expansion + dedup"
+    },
+    {
+      "from": "raw.wire_transfers",
+      "to": "curated.wire_transfers_enriched",
+      "transform": "SWIFT message parsing + country risk scoring + currency conversion"
+    },
+    {
+      "from": "raw.customers",
+      "to": "curated.accounts_enriched",
+      "transform": "customer dimension lookup for account enrichment"
+    },
+    {
+      "from": "curated.customer_360",
+      "to": "curated.accounts_enriched",
+      "transform": "customer segment and risk profile join"
+    },
+    {
+      "from": "curated.transactions_clean",
+      "to": "curated.wire_transfers_enriched",
+      "transform": "transaction reference matching for wire transfers"
+    },
+    {
+      "from": "curated.transactions_clean",
+      "to": "consumed.branch_summary_quarterly",
+      "transform": "aggregate by branch + quarter, compute volume/value metrics"
+    },
+    {
+      "from": "curated.accounts_enriched",
+      "to": "consumed.branch_summary_quarterly",
+      "transform": "account count and balance aggregation by branch"
+    },
+    {
+      "from": "curated.transactions_clean",
+      "to": "consumed.aml_alerts",
+      "transform": "rule-based scenario detection + ML anomaly scoring"
+    },
+    {
+      "from": "curated.customer_360",
+      "to": "consumed.aml_alerts",
+      "transform": "customer risk profile enrichment for alert context"
+    },
+    {
+      "from": "curated.wire_transfers_enriched",
+      "to": "consumed.aml_alerts",
+      "transform": "high-risk jurisdiction detection + pattern analysis"
+    },
+    {
+      "from": "curated.customer_360",
+      "to": "consumed.customer_risk_scores",
+      "transform": "weighted risk factor scoring model (MTB-POL-010 methodology)"
+    },
+    {
+      "from": "curated.transactions_clean",
+      "to": "consumed.customer_risk_scores",
+      "transform": "transaction behaviour features (6-month rolling window)"
+    },
+    {
+      "from": "curated.kyc_status_current",
+      "to": "consumed.customer_risk_scores",
+      "transform": "KYC status and verification completeness features"
+    },
+    {
+      "from": "curated.transactions_clean",
+      "to": "consumed.regulatory_reports",
+      "transform": "filter cash >= $10K CAD for LCTR; flag suspicious for STR review"
+    },
+    {
+      "from": "curated.wire_transfers_enriched",
+      "to": "consumed.regulatory_reports",
+      "transform": "filter international EFTs >= $10K CAD for IEFTR generation"
+    },
+    {
+      "from": "curated.customer_360",
+      "to": "consumed.customer_segmentation",
+      "transform": "feature engineering + k-means clustering + segment labelling"
+    },
+    {
+      "from": "curated.transactions_clean",
+      "to": "consumed.customer_segmentation",
+      "transform": "transaction pattern features for behavioural segmentation"
+    },
+    {
+      "from": "curated.kyc_status_current",
+      "to": "consumed.kyc_dashboard_data",
+      "transform": "aggregate KYC metrics by status, segment, branch; compute SLA compliance"
+    },
+    {
+      "from": "curated.customer_360",
+      "to": "consumed.kyc_dashboard_data",
+      "transform": "customer segment dimensions for KYC metric drill-down"
+    },
+    {
+      "from": "curated.sanctions_reference",
+      "to": "consumed.aml_alerts",
+      "transform": "real-time name/entity matching against normalized sanctions list"
+    }
+  ],
+  "metadata": {
+    "generated_at": "2025-01-15T10:00:00Z",
+    "pipeline_version": "2.3.1",
+    "bank": "Maple Trust Bank",
+    "description": "Data lineage graph showing flow from raw source extracts through curated transformations to consumed analytics and reporting layers.",
+    "total_nodes": 19,
+    "total_edges": 25
+  }
+}
