@@ -1,10 +1,11 @@
 # Data Architecture for the AI Era — Lecture Build Targets
 
-.PHONY: setup generate-data run-notebooks smoke-test clean docker-up docker-down
+.PHONY: install-dev setup generate-data run-notebooks smoke-test clean docker-up docker-down
 
-setup:  ## Install Python deps and start Docker services
+install-dev:  ## Install Python dev dependencies (no Docker)
 	@command -v uv >/dev/null 2>&1 && uv pip install -e ".[dev]" || pip install -e ".[dev]"
-	docker compose up -d
+
+setup: install-dev docker-up  ## Install deps + start Docker services
 
 generate-data:  ## Generate synthetic BFSI data
 	python data/generate.py
