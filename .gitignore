@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+.eggs/
+*.egg-info/
+dist/
+build/
+
+# Generated data
+data/transactions.parquet
+data/customers.parquet
+data/branches.parquet
+data/accounts.parquet
+data/policies/
+data/mdm/entity_links.parquet
+
+# Environment
+.env
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes
+pgdata/
+miniodata/
+osdata/
+
+# Deck assets (generated)
+deck/assets/*.png
