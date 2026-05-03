@@ -1,6 +1,11 @@
 # Data Architecture for the AI Era — Lecture Build Targets
 
-.PHONY: install-dev setup generate-data run-notebooks smoke-test clean docker-up docker-down
+.DEFAULT_GOAL := help
+
+.PHONY: help install-dev setup generate-data run-notebooks smoke-test clean docker-up docker-down
+
+help:  ## Show available targets
+	@grep -E '^[a-zA-Z_-]+:.*##' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
 
 install-dev:  ## Install Python dev dependencies (no Docker)
 	@command -v uv >/dev/null 2>&1 && uv pip install -e ".[dev]" || pip install -e ".[dev]"
