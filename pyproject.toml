@@ -13,6 +13,8 @@ dependencies = [
     "psycopg2-binary",
     "trino",
     "sqlalchemy",
+    # Lakehouse
+    "pyiceberg",
     # Object storage
     "minio",
     # Search
