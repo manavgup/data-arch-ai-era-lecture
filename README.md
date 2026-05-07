@@ -44,12 +44,12 @@ make setup && make generate-data
 
 | # | Notebook | Pattern |
 |---|----------|---------|
-| 1 | `01_data_generation.ipynb` | Synthetic data generation with Faker |
-| 2 | `02_lakehouse_queries.ipynb` | Federated queries across Postgres, MinIO, and Trino |
-| 3 | `03_governance_lineage.ipynb` | Data lineage and governance metadata |
-| 4 | `04_document_processing.ipynb` | Document parsing with Docling and embeddings |
-| 5 | `05_vector_search.ipynb` | Semantic search with OpenSearch |
-| 6 | `06_mdm_entity_resolution.ipynb` | Master data management and entity linking |
+| 1 | `01-warehouse.ipynb` | Data Warehouse — dimensional modelling, SQL analytics |
+| 2 | `02-data-lake.ipynb` | Data Lake — schema-on-read, object storage (MinIO) |
+| 3 | `03-lakehouse.ipynb` | Lakehouse — ACID on the lake with Apache Iceberg |
+| 4 | `04-virtualization.ipynb` | Data Virtualization — federated queries via Trino |
+| 5 | `05-data-mesh.ipynb` | Data Mesh — domain ownership, data product contracts |
+| 6 | `06-rag-mdm.ipynb` | MDM + RAG — entity resolution + document intelligence |
 
 ## Links
 
