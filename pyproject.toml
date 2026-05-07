@@ -41,6 +41,8 @@ dev = [
     "pytest",
     "ruff",
     "mypy",
+    "nbstripout",
+    "detect-secrets",
 ]
 watsonx = [
     "ibm-watsonx-ai",
@@ -57,3 +59,8 @@ packages = []
 [tool.ruff]
 line-length = 120
 target-version = "py311"
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: requires Docker services",
+]

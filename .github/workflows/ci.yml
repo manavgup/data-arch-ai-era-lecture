@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel stale runs (Context Forge pattern)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    # Skip CI for draft PRs (Context Forge pattern)
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff==0.8.6
+
+      - name: Ruff lint check
+        run: ruff check .
+
+      - name: Ruff format check
+        run: ruff format --check .
+
+  notebook-syntax:
+    name: Notebook syntax check
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install nbconvert
+        run: pip install nbconvert
+
+      - name: Extract and syntax-check notebooks
+        run: |
+          set -e
+          for nb in notebooks/*.ipynb; do
+            echo "Checking $nb ..."
+            jupyter nbconvert --to script "$nb" --stdout | python -c "
+          import ast, sys
+          source = sys.stdin.read()
+          try:
+              ast.parse(source)
+              print('  OK')
+          except SyntaxError as e:
+              print(f'  SYNTAX ERROR: {e}')
+              sys.exit(1)
+          "
+          done
+
+  smoke-tests:
+    name: Smoke tests
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    needs: [lint, notebook-syntax]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]"
+
+      - name: Start Docker services
+        run: docker compose up -d
+
+      - name: Wait for services to be healthy
+        run: |
+          echo "Waiting for services..."
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:9200/_cluster/health > /dev/null 2>&1 && \
+               pg_isready -h localhost -p 5432 -U lecture > /dev/null 2>&1 && \
+               curl -sf http://localhost:9000/minio/health/live > /dev/null 2>&1; then
+              echo "All services ready."
+              break
+            fi
+            echo "Attempt $i/30 — waiting 5s..."
+            sleep 5
+          done
+
+      - name: Generate test data
+        run: python data/generate.py
+
+      - name: Run smoke tests
+        run: python -m pytest tests/ -v --tb=short -m "not integration"
+
+      - name: Run integration tests
+        run: python -m pytest tests/ -v --tb=short -m integration
+
+      - name: Tear down Docker services
+        if: always()
+        run: docker compose down -v

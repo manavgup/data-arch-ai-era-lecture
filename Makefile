@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install-dev setup generate-data run-notebooks smoke-test clean docker-up docker-down
+.PHONY: help install-dev setup generate-data run-notebooks smoke-test clean docker-up docker-down lint pre-commit
 
 # help:
 # help: 🎯 QUICK START
@@ -19,6 +19,10 @@
 # help: 🧪 TESTING
 # help: smoke-test         Run pytest smoke tests
 # help: run-notebooks      Run all notebooks headless
+# help:
+# help: 🔍 CODE QUALITY
+# help: lint               Run ruff lint + format checks
+# help: pre-commit         Run all pre-commit hooks
 # help:
 # help: 🧹 CLEANUP
 # help: clean              Tear down Docker + remove generated data
@@ -46,7 +50,13 @@ smoke-test:
 	python -m pytest tests/ -v
 
 run-notebooks:
-	@echo "TODO: implement notebook runner"
+	source .venv/bin/activate && for nb in notebooks/*.ipynb; do jupyter nbconvert --to notebook --execute --inplace "$$nb"; done
+
+lint:
+	ruff check . && ruff format --check .
+
+pre-commit:
+	pre-commit run --all-files
 
 clean:
 	docker compose down -v
