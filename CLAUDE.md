@@ -4,7 +4,7 @@
 
 **Read `SPEC.md` before starting any new deliverable.** It is the frozen, complete spec for the entire project. Do not re-litigate decisions unless the user explicitly asks.
 
-## Key rules (from HANDOFF.md §8)
+## Key rules (from SPEC.md §8)
 
 1. Light theme PPTX always. Never dark theme.
 2. IBM branding is fine (this is IBM-internal). But do not assume this rule is relaxed for non-IBM decks.
@@ -21,7 +21,7 @@ Full constraints list: SPEC.md §8.
 - Always create a branch + PR for changes. Never commit directly to main.
 - Run `ruff check .` and `ruff format --check .` before committing.
 - Run `pre-commit run --all-files` to verify all hooks pass.
-- Notebooks must follow the 7-section template (see HANDOFF.md §2).
+- Notebooks must follow the 7-section template (see SPEC.md §2).
 
 ## Architecture
 

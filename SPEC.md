@@ -129,7 +129,7 @@ Pipeline: **Docling → chunking → embedding → OpenSearch → retrieval → 
 - Vector store decision tree: Milvus, Elastic/OpenSearch, Pinecone, Weaviate, Chroma, pgvector — picking based on scale, hybrid needs, ops maturity
 - Pure vector is a myth — hybrid retrieval is the real baseline
 
-**Notebook teaser #3 (3 min):** open `notebooks/06-ai-era-end-to-end.ipynb` to the Docling cell, parse a real PDF live, show the structured output with reading order preserved.
+**Notebook teaser #3 (3 min):** open `notebooks/06-rag-mdm.ipynb` to the Docling cell, parse a real PDF live, show the structured output with reading order preserved.
 
 #### 2.3 Beyond RAG: context engineering and the agent data plane (15 min)
 - "RAG vs fine-tuning" is the wrong question
@@ -200,7 +200,7 @@ File: `notebooks/03-lakehouse.ipynb`
 - **Outcome:** "lakehouse" is not a product, it's a contract between layers
 
 #### 4.3 Notebook 6 — AI-era end-to-end, run together (25 min)
-File: `notebooks/06-ai-era-end-to-end.ipynb`
+File: `notebooks/06-rag-mdm.ipynb`
 - The full reference architecture in one notebook, traced explicitly
 - Each section prints which swimlane is being exercised
 - Sections:
@@ -271,7 +271,7 @@ Same scaffold, six implementations. Sellers get pattern recognition; architects 
 | 3 | `03-lakehouse.ipynb` | Lakehouse | watsonx.data + Iceberg + Presto (or local Iceberg + DuckDB fallback) | **Live, Block 4** |
 | 4 | `04-virtualization.ipynb` | Data virtualization | Trino with Postgres + MinIO connectors (or watsonx.data federation) | Take-home (3-min cameo in Block 1) |
 | 5 | `05-data-mesh.ipynb` | Data mesh | Iceberg + per-domain catalogs (simulated) | Take-home only |
-| 6 | `06-ai-era-end-to-end.ipynb` | AI-era full stack | Docling + OpenSearch + watsonx.ai + Context Forge | **Live, Block 4** |
+| 6 | `06-rag-mdm.ipynb` | AI-era full stack | Docling + OpenSearch + watsonx.ai + Context Forge | **Live, Block 4** |
 
 ### Environment strategy
 
@@ -324,7 +324,7 @@ Manav is a contributor to the project (github.com/IBM/mcp-context-forge). Notebo
 - 16:9 widescreen
 - Speaker notes on every content slide
 - Speaker notes tone: humorous-yet-authoritative; Manav voice
-- Use IBM color palette: IBM Blue (#0F62FE), neutral grays, accent colors sparingly
+- Use IBM color palette: Signal Blue (#2D4ADE), neutral grays, accent colors sparingly
 - Use Plex font family if licensed/available; fallback Helvetica/Arial
 
 ### Slide count target: ~50–60 slides total
@@ -387,12 +387,54 @@ Density rule: text-light, diagram-heavy. Sellers in the audience read fast and s
 
 ### Annotated diagram slides
 
-Three versions of the canonical diagram, each highlighting a different set of swimlanes (rest dimmed to ~30% opacity). Build by:
-- Convert the source PDF to a high-resolution PNG
-- In PPTX, place the image and overlay translucent white rectangles to dim the non-relevant zones
-- Or recreate the diagram natively in PPTX shapes (more flexible but more work)
+**Approach: SVG generation with Python** (`deck/generate_diagrams.py`)
 
-Recommend the overlay approach for build speed. If the PDF is provided as an editable artifact, use that instead.
+Recreate the reference architecture diagram programmatically as SVG, then render 4 variants from a single data model. This gives pixel-perfect control, reproducibility, and matches the deck's blueprint aesthetic.
+
+**Script:** `deck/generate_diagrams.py`
+**Dependencies:** `svgwrite` (SVG generation), `cairosvg` (SVG → PNG conversion for PPTX embedding)
+**Source data:** The diagram structure from `reference/Software Hub 5.2 - Reference Architecture.PDF` (pages 2-3)
+
+**Diagram data model** (derived from the PDF):
+
+The diagram has these swimlanes (left to right, top to bottom):
+
+| Swimlane | Products / Boxes |
+|----------|-----------------|
+| Data Sources | Machine & Sensor Data, Images & Video, Content Services, Social Data, Internet Data Sets, Weather Data, Commercial Data Sets, Third-Party Data, Transactional Data, Application Data, System of Record Data |
+| Data Acquisition & Application Access | (vertical bar, no sub-boxes) |
+| Ingestion & Integration | Data Replication, Data Integration, Data Intelligence, Presto (connector), Connectivity |
+| Analytical Data Management & Storage — On Software Hub | watsonx.data, Db2, Db2 Warehouse (SMP, MPP), MongoDB, EDB PostgreSQL, Informix |
+| Analytical Data Management & Storage — Outside Software Hub | Db2 for z/OS & i, DataStax, Denodo, Dremio, Oracle (& RDS), Teradata, MS SQL Server, MongoDB, PostgreSQL/Netezza, SingleStore, Cloud Object Storage |
+| Data Access | Data Virtualization, Apache Spark SQL, Hadoop Execution Engine, Apache Iceberg / Delta Lake / Milvus (connectors), Connectivity |
+| Analytics In-Motion | Apache Spark (Streaming), Apache Kafka |
+| Discovery & Exploration | IBM Knowledge Catalog (Enterprise Search, Data Catalog, Data Refinery), Watson Studio |
+| Actionable Insight | Watson Studio, Watson OpenScale, Watson Machine Learning, Orchestration Pipelines, SPSS Modeler, Decision Optimization, watsonx.ai, Watson AI Services, Cognos Dashboards, Cognos Analytics, Planning Analytics |
+| Business Process & Applications | Customer Insights, New Business Models, Planning & Analysis, Compliance & Fraud, Security, Operations |
+| Information and Model Management & Governance | Business Glossary, Data Lineage, Metadata Enrichment, Governance Catalog, Data Quality, Model Inventory, Regulatory Accelerators, MDM/Match 360, Data Privacy, Product Master, AI Factsheets, watsonx.ai |
+| Security | Pre-integrated stack, user roles, monitoring, industry certifications; IBM Security, Guardium Data Protection |
+| Platform | IBM Software Hub (Cloud Pak for Data Platform) |
+| Deploy Anywhere | IBM Cloud, AWS, Azure, Google Cloud, On-Premise, Hyper-converged system, Red Hat OpenShift |
+
+**4 output variants:**
+
+1. **Full diagram** (`deck/assets/refarch-full.svg` / `.png`) — all swimlanes at full opacity
+2. **Block 1 highlight** (`deck/assets/refarch-block1.svg` / `.png`) — Storage + Access swimlanes lit (Data Sources, Ingestion & Integration, Analytical Data Management & Storage, Data Access). Rest dimmed to 30% opacity.
+3. **Block 2 highlight** (`deck/assets/refarch-block2.svg` / `.png`) — AI/ingestion swimlanes lit (Discovery & Exploration, Actionable Insight, Analytics In-Motion). Docling + Context Forge gap callouts added as annotations.
+4. **Block 3 highlight** (`deck/assets/refarch-block3.svg` / `.png`) — Governance + Security + Deploy bands lit (Information and Model Management & Governance, Security, Platform, Deploy Anywhere). Rest dimmed.
+
+**Styling** (matches deck design system):
+- Background: `#F4F2EC` (paper)
+- Swimlane fills: graduated blues (`#0F62FE` IBM Blue for active, `#E8F0FE` for light)
+- Text: Calibri/Helvetica for labels, Consolas for product names
+- Active lanes: full saturation. Dimmed lanes: 30% opacity overlay.
+- Blueprint grid: faint `#E1DCCB` grid lines behind the diagram
+- Annotations: `#2D4ADE` accent blue callout boxes for gap callouts (Block 2)
+
+**Integration with PPTX:**
+- `generate_diagrams.py` outputs PNGs at 1920×1080 (full slide size)
+- `generate_deck.py` places each PNG as a full-bleed slide background image
+- Slide chrome (header, footer) overlaid by python-pptx on top of the image
 
 ---
 
@@ -470,7 +512,7 @@ One-page handout for the architecture critique exercise. Contents:
 
 ```
 data-arch-ai-era-lecture/
-├── HANDOFF.md                              # this document
+├── SPEC.md                              # this document
 ├── README.md                               # for participants and Manav
 ├── Makefile                                # setup / run / clean / smoke-test
 ├── docker-compose.yml                      # MinIO, Postgres, Trino, OpenSearch
@@ -489,7 +531,7 @@ data-arch-ai-era-lecture/
 │   ├── 03-lakehouse.ipynb
 │   ├── 04-virtualization.ipynb
 │   ├── 05-data-mesh.ipynb
-│   └── 06-ai-era-end-to-end.ipynb
+│   └── 06-rag-mdm.ipynb
 ├── data/
 │   ├── README.md
 │   ├── generate.py
@@ -551,7 +593,7 @@ These are persistent rules from Manav's working preferences. They apply across a
 - **Mantis:** excluded per Manav's request.
 - **Whiteboard exercise (Block 2.5):** cut to make room for MDM + observability content without exceeding 4h 30m.
 - **Reference architecture diagram:** chosen as the anchor for the entire lecture. Three annotated versions used as section dividers.
-- **Deliverable format for handoff:** markdown (this file), so it lives in the repo as `HANDOFF.md` and Claude Code reads it natively. Word doc was rejected because it would need conversion.
+- **Deliverable format for handoff:** markdown (this file), so it lives in the repo as `SPEC.md` and Claude Code reads it natively. Word doc was rejected because it would need conversion.
 
 ---
 
@@ -559,9 +601,9 @@ These are persistent rules from Manav's working preferences. They apply across a
 
 When picking this up in Claude Code, suggested first steps:
 
-1. *"Read HANDOFF.md and reference/Software_Hub_5_2_-_Reference_Architecture.PDF. Confirm you understand the scope. Then propose a build order with rough effort estimates."*
-2. *"Set up the repo skeleton per section 7 of HANDOFF.md. Initialize git, write the README, the Makefile, the docker-compose.yml, and the pyproject.toml. Stop and show me before generating data or notebooks."*
-3. *"Build data/generate.py per section 2 of HANDOFF.md. Generate the synthetic dataset. Show me a sample of each table and one of the policy PDFs before moving on."*
+1. *"Read SPEC.md and reference/Software_Hub_5_2_-_Reference_Architecture.PDF. Confirm you understand the scope. Then propose a build order with rough effort estimates."*
+2. *"Set up the repo skeleton per section 7 of SPEC.md. Initialize git, write the README, the Makefile, the docker-compose.yml, and the pyproject.toml. Stop and show me before generating data or notebooks."*
+3. *"Build data/generate.py per section 2 of SPEC.md. Generate the synthetic dataset. Show me a sample of each table and one of the policy PDFs before moving on."*
 4. *"Build Notebook 1 (warehouse) per the template in section 2. Show me the full notebook. We'll iterate on the template here, then apply it to the other five."*
 5. *"Build Notebook 6 (AI-era end-to-end). This is the headline. Take your time. Use Plan B (local fallback) so it runs without an IBM environment, but structure cells so swapping in real watsonx.data / OpenSearch / Context Forge is a config change."*
 
