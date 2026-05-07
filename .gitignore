@@ -36,5 +36,5 @@ pgdata/
 miniodata/
 osdata/
 
-# Deck assets (generated)
-deck/assets/*.png
+# Deck assets — SVGs are intermediate; PNGs are committed for PPTX embedding
+deck/assets/*.svg

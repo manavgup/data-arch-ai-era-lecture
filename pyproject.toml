@@ -23,6 +23,9 @@ dependencies = [
     "python-pptx",
     "Pillow",
     "reportlab",
+    # Diagram generation (SVG → PNG)
+    "svgwrite",
+    "cairosvg",
     # Notebooks
     "jupyter",
     "ipykernel",
