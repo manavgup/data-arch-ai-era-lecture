@@ -6,10 +6,17 @@ on:
   pull_request:
     branches: [main]
 
+# Cancel stale runs (Context Forge pattern)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    # Skip CI for draft PRs (Context Forge pattern)
+    if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v4
 
@@ -19,7 +26,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install ruff
-        run: pip install ruff
+        run: pip install ruff==0.8.6
 
       - name: Ruff lint check
         run: ruff check .
@@ -30,6 +37,7 @@ jobs:
   notebook-syntax:
     name: Notebook syntax check
     runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
     steps:
       - uses: actions/checkout@v4
 
@@ -61,6 +69,8 @@ jobs:
   smoke-tests:
     name: Smoke tests
     runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    needs: [lint, notebook-syntax]
     steps:
       - uses: actions/checkout@v4
 
@@ -70,8 +80,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: |
-          pip install -e ".[dev]"
+        run: pip install -e ".[dev]"
 
       - name: Start Docker services
         run: docker compose up -d
@@ -94,7 +103,10 @@ jobs:
         run: python data/generate.py
 
       - name: Run smoke tests
-        run: python -m pytest tests/ -v --tb=short
+        run: python -m pytest tests/ -v --tb=short -m "not integration"
+
+      - name: Run integration tests
+        run: python -m pytest tests/ -v --tb=short -m integration
 
       - name: Tear down Docker services
         if: always()

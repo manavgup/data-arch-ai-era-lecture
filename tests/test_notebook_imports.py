@@ -29,9 +29,7 @@ SKIP_FULL_IMPORT = {
     "tensorflow",
 }
 
-_IMPORT_RE = re.compile(
-    r"^\s*(?:import|from)\s+([\w\.]+)", re.MULTILINE
-)
+_IMPORT_RE = re.compile(r"^\s*(?:import|from)\s+([\w\.]+)", re.MULTILINE)
 
 
 def _extract_top_level_modules(notebook_path: Path) -> set[str]:
@@ -84,7 +82,4 @@ def test_imports_are_resolvable(notebook_name: str) -> None:
         except ImportError:
             failures.append(mod)
 
-    assert not failures, (
-        f"Notebook {notebook_name} imports modules that are not installed: "
-        + ", ".join(failures)
-    )
+    assert not failures, f"Notebook {notebook_name} imports modules that are not installed: " + ", ".join(failures)

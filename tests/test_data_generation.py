@@ -13,24 +13,24 @@ DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 PARQUET_FILES = {
     "customers.parquet": {
-        "columns": {"customer_id", "name", "region"},
-        "min_rows": 100,
-        "max_rows": 50_000,
+        "columns": {"customer_id", "name", "dob", "kyc_status", "risk_score", "segment"},
+        "min_rows": 50_000,
+        "max_rows": 150_000,
     },
     "accounts.parquet": {
-        "columns": {"account_id", "customer_id", "account_type"},
-        "min_rows": 100,
-        "max_rows": 100_000,
+        "columns": {"account_id", "customer_id", "branch_id", "account_type", "balance"},
+        "min_rows": 100_000,
+        "max_rows": 300_000,
     },
     "transactions.parquet": {
-        "columns": {"transaction_id", "account_id", "amount"},
-        "min_rows": 1_000,
-        "max_rows": 1_000_000,
+        "columns": {"transaction_id", "account_id", "amount", "timestamp"},
+        "min_rows": 500_000,
+        "max_rows": 1_500_000,
     },
     "branches.parquet": {
-        "columns": {"branch_id", "city"},
+        "columns": {"branch_id", "name", "region", "manager_id"},
         "min_rows": 10,
-        "max_rows": 1_000,
+        "max_rows": 100,
     },
 }
 
@@ -62,8 +62,7 @@ class TestParquetFiles:
         df = pd.read_parquet(path)
         spec = PARQUET_FILES[filename]
         assert spec["min_rows"] <= len(df) <= spec["max_rows"], (
-            f"{filename}: row count {len(df)} outside "
-            f"[{spec['min_rows']}, {spec['max_rows']}]"
+            f"{filename}: row count {len(df)} outside [{spec['min_rows']}, {spec['max_rows']}]"
         )
 
     @pytest.mark.parametrize("filename", list(PARQUET_FILES.keys()))
@@ -74,9 +73,7 @@ class TestParquetFiles:
         df = pd.read_parquet(path)
         spec = PARQUET_FILES[filename]
         missing = spec["columns"] - set(df.columns)
-        assert not missing, (
-            f"{filename}: missing expected columns {missing}"
-        )
+        assert not missing, f"{filename}: missing expected columns {missing}"
 
 
 class TestMDMEntityLinks:

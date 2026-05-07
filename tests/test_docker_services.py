@@ -16,9 +16,7 @@ class TestOpenSearch:
         resp = requests.get("http://localhost:9200/_cluster/health", timeout=5)
         assert resp.status_code == 200
         health = resp.json()
-        assert health["status"] in ("green", "yellow"), (
-            f"Unexpected cluster status: {health['status']}"
-        )
+        assert health["status"] in ("green", "yellow"), f"Unexpected cluster status: {health['status']}"
 
 
 class TestPostgres:
@@ -46,7 +44,5 @@ class TestMinIO:
     """MinIO on port 9000."""
 
     def test_minio_responds(self, minio_ready: None) -> None:
-        resp = requests.get(
-            "http://localhost:9000/minio/health/live", timeout=5
-        )
+        resp = requests.get("http://localhost:9000/minio/health/live", timeout=5)
         assert resp.status_code == 200

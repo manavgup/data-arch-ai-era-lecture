@@ -31,9 +31,7 @@ def _wait_for_service(
         except requests.ConnectionError as exc:
             last_exc = exc
         time.sleep(interval)
-    raise TimeoutError(
-        f"Service at {url} not ready after {timeout}s (last error: {last_exc})"
-    )
+    raise TimeoutError(f"Service at {url} not ready after {timeout}s (last error: {last_exc})")
 
 
 @pytest.fixture(scope="session")
@@ -63,9 +61,7 @@ def postgres_ready() -> None:
         except psycopg2.OperationalError as exc:
             last_exc = exc
             time.sleep(2)
-    raise TimeoutError(
-        f"Postgres not ready after 60s (last error: {last_exc})"
-    )
+    raise TimeoutError(f"Postgres not ready after 60s (last error: {last_exc})")
 
 
 @pytest.fixture(scope="session")
