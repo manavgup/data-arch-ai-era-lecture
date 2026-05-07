@@ -436,6 +436,180 @@ The diagram has these swimlanes (left to right, top to bottom):
 - `generate_deck.py` places each PNG as a full-bleed slide background image
 - Slide chrome (header, footer) overlaid by python-pptx on top of the image
 
+### Pattern-comparison diagrams
+
+In addition to the 4 reference architecture variants, `generate_diagrams.py` produces pattern-specific comparison diagrams. These are original SVGs in the same blueprint style (paper bg, mono labels, hairline borders, accent blue highlights).
+
+**Diagrams 5a-5d: Pattern Architecture Diagrams** (one full slide each)
+
+Four separate full-slide diagrams, one per pattern, showing the architecture visually. Each is a standalone SVG at 1920×1080 in the blueprint style.
+
+**Diagram 5a: Data Lake** (`deck/assets/pattern-lake.svg` / `.png`)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        DATA LAKE                                │
+│                                                                 │
+│  Sources              Object Storage              Consumers     │
+│  ┌─────────┐         ┌──────────────────┐        ┌──────────┐  │
+│  │Core Bank│──────▸  │ Bronze / Silver / Gold    │  │ Spark ML │  │
+│  │CRM      │──────▸  │                          │──▸│ DuckDB   │  │
+│  │PDFs     │──────▸  │ Parquet · JSON · CSV     │  │ Presto   │  │
+│  │Streams  │──────▸  │ Raw files, any format    │  └──────────┘  │
+│  └─────────┘         └──────────────────┘                       │
+│                                                                 │
+│  ✗ No ACID    ✗ No schema enforcement    ✗ No governance        │
+│  ✓ Cheap      ✓ Any format               ✓ ML-friendly          │
+│                                                                 │
+│  "Schema-on-read. When (and if) someone reads it."              │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Diagram 5b: Lakehouse** (`deck/assets/pattern-lakehouse.svg` / `.png`)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                       LAKEHOUSE                                 │
+│                                                                 │
+│  Sources              Object Storage + Table Format   Consumers │
+│  ┌─────────┐         ┌──────────────────┐            ┌────────┐│
+│  │Core Bank│──────▸  │ Parquet files     │            │SQL / BI││
+│  │CRM      │──────▸  │ ┌──────────────┐ │──────────▸ │Spark ML││
+│  │PDFs     │──────▸  │ │ ICEBERG      │ │            │Presto  ││
+│  │Streams  │──────▸  │ │ ─────────────│ │            └────────┘│
+│  └─────────┘         │ │ ACID · Schema│ │                      │
+│                      │ │ Time Travel  │ │   ┌──────────────┐   │
+│                      │ │ Partition    │ │   │  Catalog     │   │
+│                      │ └──────────────┘ │   │  (Iceberg +  │   │
+│                      └──────────────────┘   │  Knowledge)  │   │
+│                                             └──────────────┘   │
+│  ✓ ACID     ✓ Schema evolution    ✓ Time travel    ✓ Open fmt  │
+│                                                                 │
+│  "Warehouse semantics on lake economics."                       │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Diagram 5c: Data Mesh** (`deck/assets/pattern-mesh.svg` / `.png`)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                       DATA MESH                                 │
+│                                                                 │
+│  ┌─── Retail Domain ───┐    ┌── Commercial Domain ──┐          │
+│  │ ┌────────────────┐  │    │ ┌────────────────┐   │          │
+│  │ │ Lakehouse      │  │    │ │ Lakehouse      │   │          │
+│  │ │ + Catalog      │  │    │ │ + Catalog      │   │          │
+│  │ └───────┬────────┘  │    │ └───────┬────────┘   │          │
+│  │ ┌───────┴────────┐  │    │ ┌───────┴────────┐   │          │
+│  │ │ Data Products  │◀─┼─contracts──▸│ Data Products  │   │    │
+│  │ │ + SLAs + Owner │  │    │ │ + SLAs + Owner │   │          │
+│  │ └────────────────┘  │    │ └────────────────┘   │          │
+│  └─────────────────────┘    └──────────────────────┘          │
+│                                                                 │
+│  ┌──────────────── Platform Team ──────────────────┐           │
+│  │ Federated Catalog · Governance · Observability  │           │
+│  └─────────────────────────────────────────────────┘           │
+│                                                                 │
+│  "An org change, expressed in YAML."                            │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Diagram 5d: Data Fabric** (`deck/assets/pattern-fabric.svg` / `.png`)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      DATA FABRIC                                │
+│                                                                 │
+│  ╔══════════════════════════════════════════════════════════╗   │
+│  ║              METADATA + AI AUTOMATION                    ║   │
+│  ║  Knowledge Graph · Auto-classification · Policy Engine   ║   │
+│  ║  Automated lineage · Self-serve discovery                ║   │
+│  ╚═══════╦══════════════╦══════════════╦════════════════════╝   │
+│          ║              ║              ║                        │
+│  ┌───────╨──────┐ ┌────╨───────┐ ┌────╨──────────┐            │
+│  │ Warehouse    │ │ Lakehouse  │ │ External DBs  │            │
+│  │ (Db2)       │ │ (Iceberg)  │ │ (Oracle, SQL)  │            │
+│  └──────────────┘ └────────────┘ └───────────────┘            │
+│                                                                 │
+│  ✓ Spans heterogeneous estates    ✓ AI-driven governance       │
+│  ✓ Automated discovery + lineage  ✓ Self-serve for consumers   │
+│                                                                 │
+│  "The metadata layer that knows where everything is."           │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+Each diagram uses the full 1920×1080 canvas with:
+- Blueprint grid background
+- Monospace labels for technical components
+- Serif tagline at the bottom
+- Accent-blue highlights for the key differentiating element of each pattern
+- Consistent source/storage/consumer flow direction (left to right)
+
+**Diagram 6: RAG Pipeline** (`deck/assets/rag-pipeline.svg` / `.png`)
+Used on Slide 17 (RAG Reference Architecture).
+
+Horizontal flow diagram:
+
+```
+┌─────────┐   ┌──────────┐   ┌───────────┐   ┌────────────┐   ┌──────────┐   ┌──────────┐   ┌─────────┐   ┌───────────┐
+│ Policy  │──▸│ Docling   │──▸│ Section-  │──▸│ sentence-  │──▸│OpenSearch│──▸│Reranker  │──▸│ Context │──▸│watsonx.ai │
+│ PDFs    │   │ (parse)   │   │ aware     │   │ transformers│   │ kNN +   │   │(cross-   │   │Assembly │   │(generate) │
+│         │   │           │   │ chunking  │   │ (embed)    │   │ BM25    │   │ encoder) │   │         │   │           │
+└─────────┘   └───────────┘   └───────────┘   └────────────┘   └─────────┘   └──────────┘   └─────────┘   └───────────┘
+  10 PDFs       Layout-aware    ##/### split    384-dim vectors   Hybrid       Precision       Window        Response +
+  ~300 pages    markdown        ~600 chunks     all-MiniLM-L6    retrieval    top-k rerank    assembly      provenance
+```
+
+Labels below each step show the specific tools and numbers from our Maple Trust Bank implementation. Failure points marked with caution icons at chunking and retrieval steps.
+
+**Diagram 7: Governance Triad** (`deck/assets/governance-triad.svg` / `.png`)
+Used on Slide 30 (Three Governance Problems).
+
+Three stacked horizontal bands:
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│ DATA GOVERNANCE                                              MATURE ████  │
+│ Lineage · Quality · Access · Classification · Lifecycle                   │
+│ Tools: Knowledge Catalog, OpenLineage, Great Expectations                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ AI / MODEL GOVERNANCE                                     EMERGING ███░  │
+│ Model cards · Bias · Drift · E-23 · SR 11-7 · Factsheets                 │
+│ Tools: watsonx.governance, MLflow, Weights & Biases                       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ AGENT GOVERNANCE                                          NEW      █░░░  │
+│ NHI · Blast radius · Kill switch · Tool audit · Prompt injection          │
+│ Tools: Context Forge, (almost nothing else)                               │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+Each band shows: domain name, sub-capabilities, tooling, and a maturity indicator (filled/empty blocks). The visual makes it immediately obvious that agent governance is the gap.
+
+**Styling for all pattern diagrams:**
+- Same blueprint aesthetic as reference architecture variants
+- Background: `#F4F2EC` (paper)
+- Borders: `#C9C4B6` hairline (1px)
+- Active/highlighted elements: `#2D4ADE` signal blue
+- Text: Consolas for labels, Calibri for descriptions
+- Blueprint grid behind each diagram
+- Dimensions: 1920×1080 (full slide)
+- All rendered as SVG first, then PNG for PPTX embedding
+
+**Total diagram outputs from `generate_diagrams.py`: 10**
+
+| # | File | Slide | Content |
+|---|------|-------|---------|
+| 1 | refarch-full.png | 03 | Full reference architecture |
+| 2 | refarch-block1.png | 13 | Storage + access highlighted |
+| 3 | refarch-block2.png | 27 | AI + ingestion highlighted, Docling/CF annotations |
+| 4 | refarch-block3.png | 38 | Governance + security + deploy highlighted |
+| 5 | pattern-lake.png | 08b | Data Lake architecture (sources → object storage → consumers) |
+| 6 | pattern-lakehouse.png | 08c | Lakehouse architecture (+ Iceberg ACID layer) |
+| 7 | pattern-mesh.png | 08d | Data Mesh architecture (domain-owned lakehouses + contracts) |
+| 8 | pattern-fabric.png | 08e | Data Fabric architecture (metadata AI layer spanning all) |
+| 9 | rag-pipeline.png | 17 | RAG pipeline (Docling → watsonx.ai) |
+| 10 | governance-triad.png | 30 | Data / AI / agent governance maturity bands |
+
 ---
 
 ## 4. Facilitator guide specification
