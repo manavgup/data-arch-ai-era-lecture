@@ -38,3 +38,4 @@ osdata/
 
 # Deck assets — SVGs are intermediate; PNGs are committed for PPTX embedding
 deck/assets/*.svg
+deck/data-architecture-ai-era.pptx
