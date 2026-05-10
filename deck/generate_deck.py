@@ -813,7 +813,7 @@ def make_slide_06_reinvention(prs):
                 slide,
                 x + box_w,
                 y + Inches(0.1),
-                Inches(gap),
+                gap,  # already in EMU from Inches(0.25)
                 Inches(0.5),
                 "\u2192",
                 font_name=FONT_BODY,
