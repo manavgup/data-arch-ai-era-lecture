@@ -495,32 +495,41 @@ def add_section_divider(slide, block_label: str, title: str, blurb: str, duratio
     add_footer(slide, title.rstrip("."), page)
 
 
-def add_diagram_or_placeholder(slide, filename: str, label: str):
-    """Try to place a PNG from assets as full-slide image. If missing, add placeholder."""
+def add_diagram_or_placeholder(slide, filename: str, label: str, top=None, height=None):
+    """Try to place a PNG from assets as full-slide image. If missing, add placeholder.
+
+    Args:
+        top: vertical offset for the image (default Inches(0) = full bleed).
+        height: image height (default SLIDE_H). When top is set, defaults to
+                SLIDE_H - top so the diagram fills below the header zone.
+    """
+    img_top = top if top is not None else Inches(0)
+    img_h = height if height is not None else (SLIDE_H - img_top if top is not None else SLIDE_H)
     img_path = ASSETS_DIR / filename
     if img_path.exists():
         slide.shapes.add_picture(
             str(img_path),
             Inches(0),
-            Inches(0),
+            img_top,
             SLIDE_W,
-            SLIDE_H,
+            img_h,
         )
     else:
+        placeholder_top = img_top + Inches(0.3) if top is not None else Inches(1.5)
         # Placeholder rectangle
         add_rect(
             slide,
             Inches(1.5),
-            Inches(1.5),
+            placeholder_top,
             SLIDE_W - Inches(3),
-            SLIDE_H - Inches(3),
+            img_h - Inches(1),
             fill=RGBColor(0xE8, 0xE5, 0xDB),
             line_color=RULE,
         )
         add_textbox(
             slide,
             Inches(2),
-            Inches(3.2),
+            placeholder_top + Inches(1),
             SLIDE_W - Inches(4),
             Inches(1.5),
             f"DIAGRAM: {label}",
@@ -682,9 +691,8 @@ def make_slide_02_hook(prs):
 def make_slide_03_refarch(prs):
     """Slide 03 -- Full Reference Architecture diagram."""
     slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "refarch-full.png", "Full Reference Architecture \u2014 IBM Software Hub")
 
-    # Title overlay
+    # Title above diagram
     add_textbox(
         slide,
         MARGIN_L,
@@ -696,6 +704,9 @@ def make_slide_03_refarch(prs):
         size=PT_SUBTITLE,
         color=INK,
         bold=True,
+    )
+    add_diagram_or_placeholder(
+        slide, "refarch-full.png", "Full Reference Architecture \u2014 IBM Software Hub", top=Inches(1.0)
     )
 
     add_footer(slide, "Opening", 3)
@@ -1211,7 +1222,6 @@ def make_slide_12_ibm_stack(prs):
 def make_slide_13_annotated1(prs):
     """Slide 13 -- Annotated Diagram #1: Storage + Access."""
     slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "refarch-block1.png", "Annotated Ref-Arch: Storage + Access lanes lit")
 
     add_textbox(
         slide,
@@ -1224,6 +1234,9 @@ def make_slide_13_annotated1(prs):
         size=PT_SUBTITLE,
         color=INK,
         bold=True,
+    )
+    add_diagram_or_placeholder(
+        slide, "refarch-block1.png", "Annotated Ref-Arch: Storage + Access lanes lit", top=Inches(1.0)
     )
     add_footer(slide, "Block 1 \u2014 Foundations", 17)
 
@@ -1327,7 +1340,6 @@ def make_slide_16_what_changed(prs):
 def make_slide_17_rag_pipeline(prs):
     """Slide 17 -- RAG Pipeline (diagram)."""
     slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "rag-pipeline.png", "RAG Pipeline: Docling \u2192 watsonx.ai")
 
     add_textbox(
         slide,
@@ -1352,6 +1364,7 @@ def make_slide_17_rag_pipeline(prs):
         color=INK,
         bold=True,
     )
+    add_diagram_or_placeholder(slide, "rag-pipeline.png", "RAG Pipeline: Docling \u2192 watsonx.ai", top=Inches(1.3))
     add_footer(slide, "Block 2 \u2014 AI-Era", 21)
 
     set_notes(
@@ -1739,7 +1752,6 @@ def make_slide_26_notebook_teaser(prs):
 def make_slide_27_annotated2(prs):
     """Slide 27 -- Annotated Diagram #2: AI + Ingestion."""
     slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "refarch-block2.png", "Annotated Ref-Arch: AI + Ingestion lanes lit")
 
     add_textbox(
         slide,
@@ -1752,6 +1764,9 @@ def make_slide_27_annotated2(prs):
         size=PT_SUBTITLE,
         color=INK,
         bold=True,
+    )
+    add_diagram_or_placeholder(
+        slide, "refarch-block2.png", "Annotated Ref-Arch: AI + Ingestion lanes lit", top=Inches(1.0)
     )
     add_footer(slide, "Block 2 \u2014 AI-Era", 31)
 
@@ -1815,7 +1830,6 @@ def make_slide_29_divider_governance(prs):
 def make_slide_30_governance_triad(prs):
     """Slide 30 -- Three Governance Problems (diagram)."""
     slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "governance-triad.png", "Governance Triad: Data / AI / Agent maturity")
 
     add_textbox(
         slide,
@@ -1839,6 +1853,9 @@ def make_slide_30_governance_triad(prs):
         size=PT_TITLE,
         color=INK,
         bold=True,
+    )
+    add_diagram_or_placeholder(
+        slide, "governance-triad.png", "Governance Triad: Data / AI / Agent maturity", top=Inches(1.3)
     )
     add_footer(slide, "Block 3 \u2014 Governance", 34)
 
@@ -2170,9 +2187,6 @@ def make_slide_37_threat_model(prs):
 def make_slide_38_annotated3(prs):
     """Slide 38 -- Annotated Diagram #3: Governance + Security + Deploy."""
     slide = add_slide(prs)
-    add_diagram_or_placeholder(
-        slide, "refarch-block3.png", "Annotated Ref-Arch: Governance + Security + Deploy bands lit"
-    )
 
     add_textbox(
         slide,
@@ -2185,6 +2199,9 @@ def make_slide_38_annotated3(prs):
         size=PT_SUBTITLE,
         color=INK,
         bold=True,
+    )
+    add_diagram_or_placeholder(
+        slide, "refarch-block3.png", "Annotated Ref-Arch: Governance + Security + Deploy bands lit", top=Inches(1.0)
     )
     add_footer(slide, "Block 3 \u2014 Governance", 42)
 
