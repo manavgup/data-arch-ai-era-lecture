@@ -2,7 +2,7 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install-dev setup generate-data run-notebooks smoke-test clean docker-up docker-down lint pre-commit
+.PHONY: help install-dev setup generate-data run-notebooks smoke-test validate clean docker-up docker-down lint pre-commit
 
 # help:
 # help: 🎯 QUICK START
@@ -18,6 +18,7 @@
 # help:
 # help: 🧪 TESTING
 # help: smoke-test         Run pytest smoke tests
+# help: validate           Validate deck + notebook structure against SPEC.md
 # help: run-notebooks      Run all notebooks headless
 # help:
 # help: 🔍 CODE QUALITY
@@ -48,6 +49,9 @@ docker-down:
 
 smoke-test:
 	python -m pytest tests/ -v
+
+validate:
+	python -m pytest tests/test_deck.py tests/test_notebook_structure.py -v
 
 run-notebooks:
 	source .venv/bin/activate && for nb in notebooks/*.ipynb; do jupyter nbconvert --to notebook --execute --inplace "$$nb"; done
