@@ -61,9 +61,9 @@ class TestParquetFiles:
             pytest.skip(f"{filename} not generated yet")
         df = pd.read_parquet(path)
         spec = PARQUET_FILES[filename]
-        assert (
-            spec["min_rows"] <= len(df) <= spec["max_rows"]
-        ), f"{filename}: row count {len(df)} outside [{spec['min_rows']}, {spec['max_rows']}]"
+        assert spec["min_rows"] <= len(df) <= spec["max_rows"], (
+            f"{filename}: row count {len(df)} outside [{spec['min_rows']}, {spec['max_rows']}]"
+        )
 
     @pytest.mark.parametrize("filename", list(PARQUET_FILES.keys()))
     def test_expected_columns(self, filename: str) -> None:

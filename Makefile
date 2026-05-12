@@ -2,12 +2,13 @@
 
 .DEFAULT_GOAL := help
 
-.PHONY: help install-dev setup generate-data run-notebooks smoke-test validate clean docker-up docker-down lint pre-commit
+.PHONY: help install-dev setup generate-data generate-deck run-notebooks smoke-test validate clean docker-up docker-down lint pre-commit
 
 # help:
 # help: 🎯 QUICK START
 # help: setup              Install deps + start Docker services
 # help: generate-data      Generate synthetic BFSI data
+# help: generate-deck      Generate the PPTX deck
 # help:
 # help: 🐍 PYTHON
 # help: install-dev        Install Python dev dependencies (no Docker)
@@ -36,6 +37,9 @@ setup: install-dev docker-up
 
 generate-data:
 	python data/generate.py
+
+generate-deck:
+	python deck/generate_deck.py
 
 install-dev:
 	@test -d .venv || (echo "Creating .venv..." && uv venv .venv)
