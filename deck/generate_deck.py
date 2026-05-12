@@ -7,14 +7,20 @@ Usage:
 Output:
     deck/data-architecture-ai-era.pptx
 
-Design system:
+Design system (aligned with Claude Design lecture template):
     Canvas  : 16:9 widescreen (13.333" x 7.5")
     Bg      : #F4F2EC (paper) on ALL slides — light theme, non-negotiable
+    BgAlt   : #EAE7DF (paper-alt, used for stat/reality-check slides)
     Accent  : #2D4ADE (signal blue)
+    Accent2 : #1A2C8C (deep blue, for secondary accents)
     Ink     : #15171A (primary text)
     Ink2    : #3A3F47 (secondary text)
     Slate   : #5C6470 (tertiary / mono labels)
+    Slate2  : #8A93A0 (quaternary)
     Rule    : #C9C4B6 (hairlines / borders)
+    RuleSoft: #DCD7C8 (softer hairlines)
+    Grid    : #E1DCCB (blueprint grid background)
+    Warn    : #B85C00 (ochre — errors, warnings)
     Fonts   : Georgia (display/titles), Calibri (body), Consolas (mono/code)
 """
 
@@ -31,12 +37,30 @@ from pptx.util import Inches, Pt
 # ── Design tokens ──────────────────────────────────────────────────────────────
 
 PAPER = RGBColor(0xF4, 0xF2, 0xEC)
+PAPER_ALT = RGBColor(0xEA, 0xE7, 0xDF)
 ACCENT = RGBColor(0x2D, 0x4A, 0xDE)
+ACCENT2 = RGBColor(0x1A, 0x2C, 0x8C)
 INK = RGBColor(0x15, 0x17, 0x1A)
 INK2 = RGBColor(0x3A, 0x3F, 0x47)
 SLATE = RGBColor(0x5C, 0x64, 0x70)
+SLATE2 = RGBColor(0x8A, 0x93, 0xA0)
 RULE = RGBColor(0xC9, 0xC4, 0xB6)
+RULE_SOFT = RGBColor(0xDC, 0xD7, 0xC8)
+GRID = RGBColor(0xE1, 0xDC, 0xCB)
+WARN = RGBColor(0xB8, 0x5C, 0x00)
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
+
+# ── Ref-arch lane palette (from Claude Design template) ───────────────────────
+
+LANE_PALETTE = {
+    "insight": {"bar": RGBColor(0x1A, 0x2C, 0x8C), "chip": RGBColor(0xE4, 0xE7, 0xF7)},
+    "motion": {"bar": RGBColor(0x0E, 0x5E, 0x5C), "chip": RGBColor(0xDE, 0xEA, 0xE9)},
+    "storage": {"bar": RGBColor(0x2D, 0x4A, 0xDE), "chip": RGBColor(0xE0, 0xE6, 0xFB)},
+    "ingestion": {"bar": RGBColor(0x5B, 0x3F, 0xB8), "chip": RGBColor(0xE8, 0xE2, 0xF5)},
+    "sources": {"bar": RGBColor(0x3A, 0x3F, 0x47), "chip": RGBColor(0xE5, 0xE3, 0xDA)},
+    "governance": {"bar": RGBColor(0xB8, 0x5C, 0x00), "chip": RGBColor(0xF2, 0xE4, 0xD2)},
+    "deploy": {"bar": RGBColor(0x15, 0x17, 0x1A), "chip": RGBColor(0xE5, 0xE3, 0xDA)},
+}
 
 SLIDE_W = Inches(13.333)
 SLIDE_H = Inches(7.5)

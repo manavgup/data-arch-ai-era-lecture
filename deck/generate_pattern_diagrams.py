@@ -585,9 +585,7 @@ def gen_lake() -> None:
         anchor="middle",
         weight="bold",
     )
-    _text(
-        dwg, "for Cognos", wh_x + wh_w / 2, wh_y + 195, font_size=14, fill=SLATE, anchor="middle"
-    )
+    _text(dwg, "for Cognos", wh_x + wh_w / 2, wh_y + 195, font_size=14, fill=SLATE, anchor="middle")
     _text(
         dwg,
         "(duplicate of lake data)",
@@ -1064,9 +1062,7 @@ def gen_fabric() -> None:
             anchor="middle",
             weight="bold",
         )
-        _text(
-            dwg, sub, cx, estate_y + 60, font_size=13, fill=SLATE, anchor="middle", font_family=FONT_SANS
-        )
+        _text(dwg, sub, cx, estate_y + 60, font_size=13, fill=SLATE, anchor="middle", font_family=FONT_SANS)
         for j in range(3):
             _box(dwg, sx + 28, estate_y + 90 + j * 32, store_w - 56, 24, fill=WHITE, rx=2)
         _arrow(dwg, cx, fab_y + fab_h, cx, estate_y, color=ACCENT, width=2, marker_id=f"a-f-s{cx}")
@@ -1108,9 +1104,7 @@ def gen_fabric() -> None:
         ],
     )
 
-    _draw_tagline(
-        dwg, '"The metadata layer that knows where everything is. Architectural style, not a place."'
-    )
+    _draw_tagline(dwg, '"The metadata layer that knows where everything is. Architectural style, not a place."')
     _save(dwg)
 
 
@@ -1278,9 +1272,7 @@ def gen_mesh() -> None:
     ]
     for i, item in enumerate(plat_items):
         ix = start_x + 60 + i * (total_w - 120) / (len(plat_items) - 1)
-        _text(
-            dwg, item, ix, plat_y + 78, font_size=14, fill=ACCENT_LIGHT, anchor="middle", font_family=FONT_SANS
-        )
+        _text(dwg, item, ix, plat_y + 78, font_size=14, fill=ACCENT_LIGHT, anchor="middle", font_family=FONT_SANS)
 
     # Arrows to platform
     for i in range(len(domains)):

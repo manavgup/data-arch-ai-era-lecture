@@ -26,7 +26,11 @@ DECK_PATH = Path(__file__).resolve().parent.parent / "deck" / "data-architecture
 # ── Design tokens from SPEC.md §3 / generate_deck.py ────────────────────────
 
 PAPER = RGBColor(0xF4, 0xF2, 0xEC)
+PAPER_ALT = RGBColor(0xEA, 0xE7, 0xDF)
 ACCENT = RGBColor(0x2D, 0x4A, 0xDE)
+
+# Both paper tones are acceptable light backgrounds
+ALLOWED_BACKGROUNDS = {PAPER, PAPER_ALT}
 
 ALLOWED_FONTS = {"Georgia", "Calibri", "Consolas"}
 
@@ -135,8 +139,8 @@ class TestLightTheme:
         violations: list[str] = []
         for idx, slide in enumerate(deck.slides, 1):
             bg = _slide_bg_color(slide)
-            if bg is not None and bg != PAPER:
-                violations.append(f"Slide {idx}: background #{bg} (expected #{PAPER})")
+            if bg is not None and bg not in ALLOWED_BACKGROUNDS:
+                violations.append(f"Slide {idx}: background #{bg} (expected #{PAPER} or #{PAPER_ALT})")
         assert not violations, "Non-paper backgrounds found:\n" + "\n".join(violations)
 
 
@@ -177,9 +181,9 @@ class TestForbiddenTerms:
     def test_no_mistry_surname(self, deck: Presentation) -> None:
         """SPEC.md §8 rule 4: Manav's surname is Gupta, not Mistry."""
         full_text = _all_text_in_deck(deck)
-        assert FORBIDDEN_SURNAME.lower() not in full_text.lower(), (
-            f"Found '{FORBIDDEN_SURNAME}' in deck — Manav's surname must be Gupta"
-        )
+        assert (
+            FORBIDDEN_SURNAME.lower() not in full_text.lower()
+        ), f"Found '{FORBIDDEN_SURNAME}' in deck — Manav's surname must be Gupta"
 
 
 class TestDesignTokens:
