@@ -181,9 +181,9 @@ class TestForbiddenTerms:
     def test_no_mistry_surname(self, deck: Presentation) -> None:
         """SPEC.md §8 rule 4: Manav's surname is Gupta, not Mistry."""
         full_text = _all_text_in_deck(deck)
-        assert FORBIDDEN_SURNAME.lower() not in full_text.lower(), (
-            f"Found '{FORBIDDEN_SURNAME}' in deck — Manav's surname must be Gupta"
-        )
+        assert (
+            FORBIDDEN_SURNAME.lower() not in full_text.lower()
+        ), f"Found '{FORBIDDEN_SURNAME}' in deck — Manav's surname must be Gupta"
 
 
 class TestDesignTokens:

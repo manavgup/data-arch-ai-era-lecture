@@ -117,9 +117,9 @@ class TestNotebookStructure:
         md_cells = _markdown_cells(nb)
         assert md_cells, f"{notebook_name}: no markdown cells found"
         first_md = md_cells[0].strip()
-        assert first_md.startswith("# "), (
-            f"{notebook_name}: first markdown cell should be an H1 title, got: {first_md[:80]!r}"
-        )
+        assert first_md.startswith(
+            "# "
+        ), f"{notebook_name}: first markdown cell should be an H1 title, got: {first_md[:80]!r}"
 
     def test_all_seven_sections_present(self, notebook_name: str) -> None:
         """All 7 required sections must appear as markdown headings."""
