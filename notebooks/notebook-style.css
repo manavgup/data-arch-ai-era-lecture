@@ -1,0 +1,269 @@
+/* notebook-style.css — Drop-in style for Jupyter notebooks rendered for the
+   "Data Architecture for the AI Era" lecture series. Copy to ~/.jupyter/custom/custom.css
+   or import from a Quarto/HTML render pipeline.
+
+   Uses the same design tokens as the PPTX deck:
+   paper #F4F2EC, ink #15171A, accent #2D4ADE.
+   Source Serif 4 (display), Inter (body), JetBrains Mono (code). */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --fg-paper:    #F4F2EC;
+  --fg-paper-alt:#EAE7DF;
+  --fg-ink:      #15171A;
+  --fg-ink2:     #3A3F47;
+  --fg-slate:    #5C6470;
+  --fg-rule:     #C9C4B6;
+  --fg-accent:   #2D4ADE;
+  --fg-warn:     #B85C00;
+
+  --fg-display:  "Source Serif 4", Georgia, serif;
+  --fg-body:     "Inter", "Helvetica Neue", sans-serif;
+  --fg-mono:     "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ── Notebook page ─────────────────────────────────────────────── */
+.jp-Notebook,
+body.jp-Notebook,
+.jp-NotebookPanel-notebook {
+  background: var(--fg-paper) !important;
+  font-family: var(--fg-body);
+  color: var(--fg-ink);
+  line-height: 1.55;
+}
+
+.jp-Cell { padding: 8px 60px; max-width: 1080px; margin: 0 auto; }
+
+/* ── Markdown cells ────────────────────────────────────────────── */
+.jp-MarkdownOutput,
+.jp-RenderedMarkdown {
+  font-family: var(--fg-body);
+  font-size: 17px;
+  color: var(--fg-ink2);
+  max-width: 800px;
+}
+.jp-RenderedMarkdown p { margin: 0 0 1.1em; line-height: 1.55; text-wrap: pretty; }
+
+.jp-RenderedMarkdown h1 {
+  font-family: var(--fg-display);
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--fg-ink);
+  margin: 56px 0 18px;
+}
+.jp-RenderedMarkdown h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 2px;
+  background: var(--fg-ink);
+  margin: 22px 0 0;
+}
+
+.jp-RenderedMarkdown h2 {
+  font-family: var(--fg-display);
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 1.15;
+  letter-spacing: -0.012em;
+  color: var(--fg-ink);
+  margin: 48px 0 14px;
+  padding-top: 28px;
+  border-top: 1px solid var(--fg-rule);
+}
+
+/* Section eyebrow — drop "## Section 1: Title" → eyebrow + title */
+.jp-RenderedMarkdown h2 small,
+.jp-RenderedMarkdown h2 .eyebrow {
+  display: block;
+  font-family: var(--fg-mono);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-accent);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.jp-RenderedMarkdown h3 {
+  font-family: var(--fg-display);
+  font-weight: 400;
+  font-size: 24px;
+  margin: 32px 0 10px;
+  color: var(--fg-ink);
+}
+
+/* ── Blockquote → field-guide callout ──────────────────────────── */
+.jp-RenderedMarkdown blockquote {
+  border: none;
+  border-top: 1px solid var(--fg-rule);
+  padding: 22px 0 0 180px;
+  margin: 28px 0;
+  position: relative;
+  font-family: var(--fg-display);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--fg-ink2);
+}
+.jp-RenderedMarkdown blockquote::before {
+  content: "NOTE →";
+  position: absolute;
+  left: 0; top: 22px;
+  font-family: var(--fg-mono);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--fg-accent);
+}
+
+/* ── Inline + block code ───────────────────────────────────────── */
+.jp-RenderedMarkdown code,
+code {
+  font-family: var(--fg-mono);
+  font-size: 0.92em;
+  background: var(--fg-paper-alt);
+  padding: 1px 6px;
+  border: 1px solid var(--fg-rule);
+}
+
+/* ── Code input cells ──────────────────────────────────────────── */
+.jp-CodeCell .jp-InputArea-editor,
+.jp-CodeCell .jp-Editor,
+.CodeMirror {
+  font-family: var(--fg-mono) !important;
+  font-size: 14px !important;
+  background: var(--fg-paper) !important;
+  border: 1px solid var(--fg-rule) !important;
+  border-radius: 0 !important;
+}
+
+.jp-InputPrompt,
+.jp-OutputPrompt {
+  font-family: var(--fg-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-slate);
+}
+
+/* ── Output cells ──────────────────────────────────────────────── */
+.jp-OutputArea-output,
+.jp-RenderedHTMLCommon {
+  background: var(--fg-paper-alt);
+  border: 1px solid var(--fg-rule);
+  border-top: none;
+  font-family: var(--fg-mono);
+  font-size: 14px;
+  color: var(--fg-ink);
+  padding: 16px 22px;
+}
+
+/* DataFrame tables */
+.jp-RenderedHTMLCommon table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: var(--fg-mono);
+  font-size: 13px;
+}
+.jp-RenderedHTMLCommon thead th {
+  text-align: left;
+  border-bottom: 1px solid var(--fg-rule);
+  padding: 10px 14px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-slate);
+  font-weight: 500;
+  background: transparent;
+}
+.jp-RenderedHTMLCommon tbody td {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--fg-rule);
+  color: var(--fg-ink);
+}
+.jp-RenderedHTMLCommon tbody tr:hover { background: rgba(45,74,222,0.04); }
+
+/* Stream output (prints) */
+.jp-OutputArea-output pre {
+  background: transparent;
+  font-family: var(--fg-mono);
+  font-size: 13px;
+  color: var(--fg-ink2);
+  white-space: pre-wrap;
+}
+
+/* Errors are warm-ochre, not red — matches the palette */
+.jp-OutputArea-output[data-mime-type="application/vnd.jupyter.stderr"],
+.jp-OutputArea-output.jp-OutputArea-stderr {
+  background: rgba(184,92,0,0.06);
+  border-left: 3px solid var(--fg-warn);
+  color: var(--fg-warn);
+}
+
+/* ── "Where it breaks" callout — apply via markdown class .breaks ── */
+.jp-RenderedMarkdown .breaks {
+  border: 1px solid var(--fg-ink);
+  padding: 24px 28px;
+  position: relative;
+  margin: 36px 0;
+  font-family: var(--fg-display);
+  font-size: 22px;
+  line-height: 1.25;
+  color: var(--fg-ink);
+}
+.jp-RenderedMarkdown .breaks::before {
+  content: "§ 05 — Where it breaks";
+  position: absolute;
+  top: -11px; left: 18px;
+  background: var(--fg-paper);
+  padding: 0 10px;
+  font-family: var(--fg-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-ink);
+  font-style: normal;
+}
+
+/* ── Tables in markdown (use-when / don't tables) ──────────────── */
+.jp-RenderedMarkdown table {
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 16px;
+}
+.jp-RenderedMarkdown th {
+  text-align: left;
+  font-family: var(--fg-mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-slate);
+  border-bottom: 2px solid var(--fg-ink);
+  padding: 10px 16px;
+  font-weight: 500;
+}
+.jp-RenderedMarkdown td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--fg-rule);
+  vertical-align: top;
+}
+.jp-RenderedMarkdown td:first-child { color: var(--fg-accent); font-family: var(--fg-mono); font-size: 14px; }
+
+/* ── Horizontal rule → chapter break ───────────────────────────── */
+.jp-RenderedMarkdown hr {
+  border: none;
+  height: 1px;
+  background: var(--fg-rule);
+  margin: 48px 0;
+}
+
+/* ── Print: tighter, ink-on-paper ──────────────────────────────── */
+@media print {
+  :root { --fg-paper: #ffffff; --fg-paper-alt: #f6f4ee; }
+  .jp-Cell { break-inside: avoid; }
+  .jp-RenderedMarkdown h1, .jp-RenderedMarkdown h2 { break-after: avoid; }
+}
