@@ -1453,15 +1453,155 @@ def make_slide_08_decoder_ring(prs):
     )
 
 
-def make_slide_08b_lake(prs):
-    """Slide 08b -- Data Lake Architecture (diagram)."""
-    slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "pattern-lake.png", "Data Lake Architecture")
-    add_footer(slide, "Block 1 \u2014 Foundations", 9)
+def _make_pattern_swimlane_slide(
+    prs,
+    title: str,
+    subtitle: str,
+    highlight_lanes: set[str],
+    active_items: dict[str, list[str]] | None,
+    page: int,
+    notes: str,
+):
+    """Build a pattern architecture slide as a color-coded swimlane diagram.
 
-    set_notes(
+    highlight_lanes: set of lane keys to render at full opacity.
+    active_items: optional dict mapping lane key -> list of items to render as chips.
+                  If None, uses the standard ref-arch items for highlighted lanes.
+    """
+    slide = add_slide(prs)
+
+    # Header
+    add_textbox(
         slide,
+        MARGIN_L,
+        Inches(0.25),
+        CONTENT_W,
+        Inches(0.25),
+        "\u00a7 1.3 \u2014 PATTERN DECODER RING",
+        font_name=FONT_MONO,
+        size=8,
+        color=ACCENT,
+    )
+    add_textbox(
+        slide,
+        MARGIN_L,
+        Inches(0.50),
+        CONTENT_W,
+        Inches(0.35),
+        title,
+        font_name=FONT_DISPLAY,
+        size=22,
+        color=INK,
+        bold=True,
+    )
+    add_textbox(
+        slide,
+        MARGIN_L,
+        Inches(0.88),
+        CONTENT_W,
+        Inches(0.25),
+        subtitle,
+        font_name=FONT_BODY,
+        size=10,
+        color=SLATE,
+        italic=True,
+    )
+
+    # Standard lane definitions
+    STD_LANES = [
         (
+            "ACTIONABLE INSIGHT",
+            "insight",
+            ["Enhanced Applications", "Customer Insights", "Compliance & Fraud", "Discovery & Exploration"],
+        ),
+        ("ANALYTICS IN-MOTION", "motion", ["Real-time scoring", "Streaming aggregates", "Event triggers"]),
+        (
+            "ANALYTICAL DATA MANAGEMENT & STORAGE",
+            "storage",
+            ["Warehouse", "Lakehouse", "Lake (Object Storage)", "Vector / Search"],
+        ),
+        ("INGESTION & INTEGRATION", "ingestion", ["Batch ETL", "CDC", "Streaming", "API / Files", "Federation"]),
+        ("DATA SOURCES", "sources", ["System of Record", "Application Data", "Third-Party", "Content Services"]),
+    ]
+
+    # Layout
+    lanes_left = MARGIN_L
+    lanes_w = CONTENT_W
+    base_y = Inches(1.2)
+    lane_h = Inches(0.72)
+    lane_gap = Inches(0.06)
+    dim_color = RGBColor(0xD0, 0xCE, 0xC6)
+
+    y = base_y
+    for label, lane_key, default_items in STD_LANES:
+        lp = LANE_PALETTE[lane_key]
+        is_active = lane_key in highlight_lanes
+        items = (active_items or {}).get(lane_key, default_items) if is_active else []
+
+        bar_color = lp["bar"] if is_active else dim_color
+        chip_bg = lp["chip"] if is_active else PAPER
+        chip_fg = lp["bar"] if is_active else SLATE2
+
+        # Always draw header bar
+        add_rect(slide, lanes_left, y, lanes_w, Inches(0.3), fill=bar_color)
+        label_color = WHITE if is_active else SLATE
+        add_textbox(
+            slide,
+            lanes_left + Inches(0.12),
+            y + Inches(0.02),
+            lanes_w - Inches(0.24),
+            Inches(0.26),
+            label,
+            font_name=FONT_MONO,
+            size=8,
+            color=label_color,
+        )
+
+        # Draw chips only for active lanes
+        if items:
+            chip_y = y + Inches(0.34)
+            chip_x = lanes_left + Inches(0.12)
+            max_x = lanes_left + lanes_w - Inches(0.12)
+            for item in items:
+                text_w = Inches(max(1.2, len(item) * 0.085))
+                if chip_x + text_w > max_x:
+                    chip_x = lanes_left + Inches(0.12)
+                    chip_y += Inches(0.28)
+                add_rect(slide, chip_x, chip_y, text_w, Inches(0.24), fill=chip_bg, line_color=RULE)
+                add_textbox(
+                    slide,
+                    chip_x + Inches(0.06),
+                    chip_y + Inches(0.02),
+                    text_w - Inches(0.12),
+                    Inches(0.2),
+                    item,
+                    font_name=FONT_BODY,
+                    size=8,
+                    color=chip_fg,
+                )
+                chip_x += text_w + Inches(0.08)
+
+        y += lane_h + lane_gap
+
+    add_footer(slide, "Block 1 \u2014 Foundations", page)
+    set_notes(slide, notes)
+    return slide
+
+
+def make_slide_08b_lake(prs):
+    """Slide 08b -- Data Lake Architecture (swimlane diagram)."""
+    _make_pattern_swimlane_slide(
+        prs,
+        title="Data Lake",
+        subtitle="Cheap object storage holding everything raw. Schema-on-read, when someone reads it.",
+        highlight_lanes={"sources", "ingestion", "storage"},
+        active_items={
+            "sources": ["Core Banking", "CRM", "Policy PDFs", "Card Stream"],
+            "ingestion": ["Batch ETL", "CDC", "API / Files"],
+            "storage": ["Lake (Object Storage)", "Parquet", "JSON", "CSV", "Raw PDFs"],
+        },
+        page=9,
+        notes=(
             "The lake. Cheap storage for everything. Parquet, JSON, CSV, PDFs \u2014 dump it all in and figure "
             "out the schema later. Some teams did figure it out. Most didn't. The problem: two Spark jobs "
             "writing to the same prefix with no coordination. No ACID means no rollback, no isolation, "
@@ -1471,14 +1611,20 @@ def make_slide_08b_lake(prs):
 
 
 def make_slide_08c_lakehouse(prs):
-    """Slide 08c -- Lakehouse Architecture (diagram)."""
-    slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "pattern-lakehouse.png", "Lakehouse Architecture")
-    add_footer(slide, "Block 1 \u2014 Foundations", 10)
-
-    set_notes(
-        slide,
-        (
+    """Slide 08c -- Lakehouse Architecture (swimlane diagram)."""
+    _make_pattern_swimlane_slide(
+        prs,
+        title="Lakehouse",
+        subtitle="The lake, with ACID bolted on. Iceberg, Delta, Hudi over object storage.",
+        highlight_lanes={"sources", "ingestion", "storage", "motion"},
+        active_items={
+            "sources": ["Core Banking", "CRM", "Card Stream", "Third-Party"],
+            "ingestion": ["Batch ETL", "CDC", "Streaming"],
+            "storage": ["Lakehouse (Iceberg)", "ACID", "Schema Evolution", "Time Travel", "Partition Pruning"],
+            "motion": ["Real-time scoring", "Streaming aggregates"],
+        },
+        page=10,
+        notes=(
             "Same cheap storage, but now with Iceberg on top. ACID means two writers can't corrupt each "
             "other. Schema evolution means adding a column isn't a two-week project. Time travel means the "
             'regulator asks "what did it look like on March 15th?" and you answer in one query instead of '
@@ -1488,14 +1634,20 @@ def make_slide_08c_lakehouse(prs):
 
 
 def make_slide_08d_mesh(prs):
-    """Slide 08d -- Data Mesh Architecture (diagram)."""
-    slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "pattern-mesh.png", "Data Mesh Architecture")
-    add_footer(slide, "Block 1 \u2014 Foundations", 11)
-
-    set_notes(
-        slide,
-        (
+    """Slide 08d -- Data Mesh Architecture (swimlane diagram)."""
+    _make_pattern_swimlane_slide(
+        prs,
+        title="Data Mesh",
+        subtitle="Domain-owned data products. The org chart, expressed in storage.",
+        highlight_lanes={"sources", "ingestion", "storage", "insight"},
+        active_items={
+            "sources": ["Retail Domain", "Cards Domain", "Wealth Domain", "Risk Domain"],
+            "ingestion": ["Per-domain pipelines", "Data contracts", "Schema registry"],
+            "storage": ["Domain Lakehouse (Cards)", "Domain Lakehouse (Retail)", "Domain Lakehouse (Wealth)"],
+            "insight": ["Cross-domain analytics", "Data product discovery", "Federated governance"],
+        },
+        page=11,
+        notes=(
             "Mesh is not a technology \u2014 it's an org chart expressed in storage. Each domain owns its "
             "lakehouse and publishes data products with contracts. The platform team provides the runway. "
             'The question isn\'t "should we do mesh?" \u2014 it\'s "does our org have the product thinking '
@@ -1506,14 +1658,21 @@ def make_slide_08d_mesh(prs):
 
 
 def make_slide_08e_fabric(prs):
-    """Slide 08e -- Data Fabric Architecture (diagram)."""
-    slide = add_slide(prs)
-    add_diagram_or_placeholder(slide, "pattern-fabric.png", "Data Fabric Architecture")
-    add_footer(slide, "Block 1 \u2014 Foundations", 12)
-
-    set_notes(
-        slide,
-        (
+    """Slide 08e -- Data Fabric Architecture (swimlane diagram)."""
+    _make_pattern_swimlane_slide(
+        prs,
+        title="Data Fabric",
+        subtitle="The meta-pattern. AI-driven governance spanning all other patterns.",
+        highlight_lanes={"sources", "ingestion", "storage", "motion", "insight"},
+        active_items={
+            "sources": ["System of Record", "Application Data", "Third-Party", "Content Services"],
+            "ingestion": ["Automated discovery", "AI-classified ingestion", "Policy-aware routing"],
+            "storage": ["Warehouse", "Lakehouse", "Lake", "Vector / Search"],
+            "motion": ["Automated lineage", "Quality monitoring", "Schema drift detection"],
+            "insight": ["Knowledge Catalog", "Self-serve discovery", "Federated governance"],
+        },
+        page=12,
+        notes=(
             "Fabric is the meta-pattern. It doesn't replace the others \u2014 it automates the governance "
             "layer across all of them. The metadata layer knows where everything is, who owns it, how "
             "fresh it is, and what policies apply. AI-assisted classification, automated lineage, self-serve "
