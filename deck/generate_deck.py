@@ -1455,15 +1455,17 @@ def make_slide_08_decoder_ring(prs):
 
 def _add_arrow(slide, x, y1, y2, color=SLATE):
     """Add a downward arrow connector between two y positions at x."""
-    from pptx.oxml.ns import qn as _qn
-
     connector = slide.shapes.add_connector(1, x, y1, x, y2)  # STRAIGHT
     connector.line.color.rgb = color
     connector.line.width = Pt(1.5)
-    # Add end arrow
+    # Add triangle arrowhead at end
     ln = connector.line._ln
-    tail = ln.makeelement(_qn("a:tailEnd"), {"type": "triangle", "w": "med", "len": "med"})
+    tail = ln.makeelement(qn("a:tailEnd"), {"type": "triangle", "w": "med", "len": "med"})
     ln.append(tail)
+    # Remove theme style so explicit line + arrowhead render correctly
+    style_elem = connector._element.find(qn("p:style"))
+    if style_elem is not None:
+        connector._element.remove(style_elem)
 
 
 def _draw_flow_column(slide, left, top, width, col_height, layers, accent_color, accent_light):
