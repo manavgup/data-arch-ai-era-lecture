@@ -1453,21 +1453,75 @@ def make_slide_08_decoder_ring(prs):
     )
 
 
-def _make_pattern_swimlane_slide(
-    prs,
-    title: str,
-    subtitle: str,
-    highlight_lanes: set[str],
-    active_items: dict[str, list[str]] | None,
-    page: int,
-    notes: str,
-):
-    """Build a pattern architecture slide as a color-coded swimlane diagram.
+def _add_arrow(slide, x, y1, y2, color=SLATE):
+    """Add a downward arrow connector between two y positions at x."""
+    from pptx.oxml.ns import qn as _qn
 
-    highlight_lanes: set of lane keys to render at full opacity.
-    active_items: optional dict mapping lane key -> list of items to render as chips.
-                  If None, uses the standard ref-arch items for highlighted lanes.
+    connector = slide.shapes.add_connector(1, x, y1, x, y2)  # STRAIGHT
+    connector.line.color.rgb = color
+    connector.line.width = Pt(1.5)
+    # Add end arrow
+    ln = connector.line._ln
+    tail = ln.makeelement(_qn("a:tailEnd"), {"type": "triangle", "w": "med", "len": "med"})
+    ln.append(tail)
+
+
+def _draw_flow_column(slide, left, top, width, col_height, layers, accent_color, accent_light):
+    """Draw a vertical flow column with stacked layer boxes and arrows.
+
+    layers: list of (label, items_list) tuples, top-to-bottom.
     """
+    n = len(layers)
+    arrow_gap = Inches(0.18)
+    total_arrows = (n - 1) * arrow_gap
+    layer_h = (col_height - total_arrows) / n
+    mid_x = left + width / 2
+
+    y = top
+    for i, (label, items) in enumerate(layers):
+        # Layer box
+        add_rect(slide, left, y, width, layer_h, fill=accent_light, line_color=accent_color)
+        # Layer label
+        add_textbox(
+            slide,
+            left + Inches(0.08),
+            y + Inches(0.04),
+            width - Inches(0.16),
+            Inches(0.2),
+            label,
+            font_name=FONT_MONO,
+            size=7,
+            color=accent_color,
+            bold=True,
+        )
+        # Chip items
+        chip_y = y + Inches(0.26)
+        for item in items:
+            if chip_y + Inches(0.18) > y + layer_h - Inches(0.04):
+                break
+            add_textbox(
+                slide,
+                left + Inches(0.12),
+                chip_y,
+                width - Inches(0.24),
+                Inches(0.16),
+                item,
+                font_name=FONT_BODY,
+                size=7,
+                color=INK2,
+            )
+            chip_y += Inches(0.17)
+
+        box_bottom = y + layer_h
+        y = box_bottom + arrow_gap
+
+        # Arrow to next layer
+        if i < n - 1:
+            _add_arrow(slide, mid_x, box_bottom + Inches(0.02), box_bottom + arrow_gap - Inches(0.02), accent_color)
+
+
+def _make_pattern_flow_slide(prs, title, subtitle, layers, accent_color, accent_light, page, notes, differentiator):
+    """Build a pattern architecture slide as a vertical flow diagram with arrows."""
     slide = add_slide(prs)
 
     # Header
@@ -1477,7 +1531,7 @@ def _make_pattern_swimlane_slide(
         Inches(0.25),
         CONTENT_W,
         Inches(0.25),
-        "\u00a7 1.3 \u2014 PATTERN DECODER RING",
+        "\u00a7 1.3 \u2014 PATTERN ARCHITECTURE",
         font_name=FONT_MONO,
         size=8,
         color=ACCENT,
@@ -1486,20 +1540,20 @@ def _make_pattern_swimlane_slide(
         slide,
         MARGIN_L,
         Inches(0.50),
-        CONTENT_W,
-        Inches(0.35),
+        Inches(6),
+        Inches(0.4),
         title,
         font_name=FONT_DISPLAY,
-        size=22,
+        size=24,
         color=INK,
         bold=True,
     )
     add_textbox(
         slide,
         MARGIN_L,
-        Inches(0.88),
-        CONTENT_W,
-        Inches(0.25),
+        Inches(0.92),
+        Inches(6),
+        Inches(0.22),
         subtitle,
         font_name=FONT_BODY,
         size=10,
@@ -1507,81 +1561,42 @@ def _make_pattern_swimlane_slide(
         italic=True,
     )
 
-    # Standard lane definitions
-    STD_LANES = [
-        (
-            "ACTIONABLE INSIGHT",
-            "insight",
-            ["Enhanced Applications", "Customer Insights", "Compliance & Fraud", "Discovery & Exploration"],
-        ),
-        ("ANALYTICS IN-MOTION", "motion", ["Real-time scoring", "Streaming aggregates", "Event triggers"]),
-        (
-            "ANALYTICAL DATA MANAGEMENT & STORAGE",
-            "storage",
-            ["Warehouse", "Lakehouse", "Lake (Object Storage)", "Vector / Search"],
-        ),
-        ("INGESTION & INTEGRATION", "ingestion", ["Batch ETL", "CDC", "Streaming", "API / Files", "Federation"]),
-        ("DATA SOURCES", "sources", ["System of Record", "Application Data", "Third-Party", "Content Services"]),
-    ]
+    # Flow diagram column (left 60%)
+    col_left = MARGIN_L
+    col_w = Inches(6.8)
+    col_top = Inches(1.3)
+    col_h = Inches(5.2)
+    _draw_flow_column(slide, col_left, col_top, col_w, col_h, layers, accent_color, accent_light)
 
-    # Layout
-    lanes_left = MARGIN_L
-    lanes_w = CONTENT_W
-    base_y = Inches(1.2)
-    lane_h = Inches(0.72)
-    lane_gap = Inches(0.06)
-    dim_color = RGBColor(0xD0, 0xCE, 0xC6)
-
-    y = base_y
-    for label, lane_key, default_items in STD_LANES:
-        lp = LANE_PALETTE[lane_key]
-        is_active = lane_key in highlight_lanes
-        items = (active_items or {}).get(lane_key, default_items) if is_active else []
-
-        bar_color = lp["bar"] if is_active else dim_color
-        chip_bg = lp["chip"] if is_active else PAPER
-        chip_fg = lp["bar"] if is_active else SLATE2
-
-        # Always draw header bar
-        add_rect(slide, lanes_left, y, lanes_w, Inches(0.3), fill=bar_color)
-        label_color = WHITE if is_active else SLATE
+    # Right panel: differentiator
+    panel_left = MARGIN_L + Inches(7.2)
+    panel_w = CONTENT_W - Inches(7.2)
+    add_textbox(
+        slide,
+        panel_left,
+        Inches(1.3),
+        panel_w,
+        Inches(0.25),
+        "WHAT MAKES THIS PATTERN UNIQUE",
+        font_name=FONT_MONO,
+        size=7,
+        color=accent_color,
+    )
+    add_rule(slide, panel_left, Inches(1.58), panel_w, color=accent_color, weight=1.5)
+    diff_y = Inches(1.7)
+    for item in differentiator:
         add_textbox(
             slide,
-            lanes_left + Inches(0.12),
-            y + Inches(0.02),
-            lanes_w - Inches(0.24),
-            Inches(0.26),
-            label,
-            font_name=FONT_MONO,
-            size=8,
-            color=label_color,
+            panel_left,
+            diff_y,
+            panel_w,
+            Inches(0.3),
+            "\u2022 " + item,
+            font_name=FONT_BODY,
+            size=9,
+            color=INK2,
         )
-
-        # Draw chips only for active lanes
-        if items:
-            chip_y = y + Inches(0.34)
-            chip_x = lanes_left + Inches(0.12)
-            max_x = lanes_left + lanes_w - Inches(0.12)
-            for item in items:
-                text_w = Inches(max(1.2, len(item) * 0.085))
-                if chip_x + text_w > max_x:
-                    chip_x = lanes_left + Inches(0.12)
-                    chip_y += Inches(0.28)
-                add_rect(slide, chip_x, chip_y, text_w, Inches(0.24), fill=chip_bg, line_color=RULE)
-                add_textbox(
-                    slide,
-                    chip_x + Inches(0.06),
-                    chip_y + Inches(0.02),
-                    text_w - Inches(0.12),
-                    Inches(0.2),
-                    item,
-                    font_name=FONT_BODY,
-                    size=8,
-                    color=chip_fg,
-                )
-                chip_x += text_w + Inches(0.08)
-
-        y += lane_h + lane_gap
+        diff_y += Inches(0.32)
 
     add_footer(slide, "Block 1 \u2014 Foundations", page)
     set_notes(slide, notes)
@@ -1589,18 +1604,30 @@ def _make_pattern_swimlane_slide(
 
 
 def make_slide_08b_lake(prs):
-    """Slide 08b -- Data Lake Architecture (swimlane diagram)."""
-    _make_pattern_swimlane_slide(
+    """Slide 08b -- Data Lake Architecture (vertical flow diagram)."""
+    _make_pattern_flow_slide(
         prs,
         title="Data Lake",
-        subtitle="Cheap object storage holding everything raw. Schema-on-read, when someone reads it.",
-        highlight_lanes={"sources", "ingestion", "storage"},
-        active_items={
-            "sources": ["Core Banking", "CRM", "Policy PDFs", "Card Stream"],
-            "ingestion": ["Batch ETL", "CDC", "API / Files"],
-            "storage": ["Lake (Object Storage)", "Parquet", "JSON", "CSV", "Raw PDFs"],
-        },
+        subtitle="Cheap object storage. Schema-on-read.",
+        layers=[
+            ("CONSUMPTION", ["Cognos BI", "Watson Studio", "Spark ML, SPSS"]),
+            ("CURATED ZONE", ["Db2 Warehouse (optional)", "For BI workloads only"]),
+            ("RAW ZONE (LAKE)", ["Object storage (S3, COS)", "Parquet, JSON, CSV, PDFs"]),
+            ("ETL & PROCESSING", ["DataStage", "Spark, Hadoop"]),
+            ("GOVERNANCE (ADDED ON)", ["Knowledge Catalog"]),
+            ("SOURCES", ["Structured, semi-structured, unstructured"]),
+        ],
+        accent_color=LANE_PALETTE["motion"]["bar"],  # teal
+        accent_light=RGBColor(0xDE, 0xEA, 0xE9),
         page=9,
+        differentiator=[
+            "Schema applied at read time, not write",
+            "Cheap storage for everything raw",
+            "No ACID \u2014 no rollback, no isolation",
+            "Governance is bolted on, not built in",
+            "60% became swamps within 3 years",
+            "Good for: ML feature eng, raw audit retention",
+        ],
         notes=(
             "The lake. Cheap storage for everything. Parquet, JSON, CSV, PDFs \u2014 dump it all in and figure "
             "out the schema later. Some teams did figure it out. Most didn't. The problem: two Spark jobs "
@@ -1611,19 +1638,30 @@ def make_slide_08b_lake(prs):
 
 
 def make_slide_08c_lakehouse(prs):
-    """Slide 08c -- Lakehouse Architecture (swimlane diagram)."""
-    _make_pattern_swimlane_slide(
+    """Slide 08c -- Lakehouse Architecture (vertical flow diagram)."""
+    _make_pattern_flow_slide(
         prs,
         title="Lakehouse",
-        subtitle="The lake, with ACID bolted on. Iceberg, Delta, Hudi over object storage.",
-        highlight_lanes={"sources", "ingestion", "storage", "motion"},
-        active_items={
-            "sources": ["Core Banking", "CRM", "Card Stream", "Third-Party"],
-            "ingestion": ["Batch ETL", "CDC", "Streaming"],
-            "storage": ["Lakehouse (Iceberg)", "ACID", "Schema Evolution", "Time Travel", "Partition Pruning"],
-            "motion": ["Real-time scoring", "Streaming aggregates"],
-        },
+        subtitle="One copy, all workloads. ACID over object storage.",
+        layers=[
+            ("CONSUMPTION", ["Cognos BI", "watsonx.ai", "Watson Studio", "Agents, RAG"]),
+            ("QUERY ENGINES", ["Presto, Spark", "Db2 engine"]),
+            ("OPEN TABLE FORMATS", ["Apache Iceberg", "Delta Lake, Milvus vector"]),
+            ("OBJECT STORAGE", ["S3 / COS / MinIO", "Parquet underneath"]),
+            ("ETL + STREAMING", ["DataStage, CDC", "Kafka, real-time ingestion"]),
+            ("SOURCES", ["Structured + unstructured + streaming"]),
+        ],
+        accent_color=LANE_PALETTE["ingestion"]["bar"],  # violet
+        accent_light=RGBColor(0xE8, 0xE2, 0xF5),
         page=10,
+        differentiator=[
+            "ACID transactions over cheap storage",
+            "Schema evolution \u2014 add columns, not projects",
+            "Time travel \u2014 query any past version",
+            "Partition pruning \u2014 3\u00d7 faster queries",
+            "One copy serves BI + ML + AI",
+            "watsonx.data\u2019s default format",
+        ],
         notes=(
             "Same cheap storage, but now with Iceberg on top. ACID means two writers can't corrupt each "
             "other. Schema evolution means adding a column isn't a two-week project. Time travel means the "
@@ -1634,19 +1672,30 @@ def make_slide_08c_lakehouse(prs):
 
 
 def make_slide_08d_mesh(prs):
-    """Slide 08d -- Data Mesh Architecture (swimlane diagram)."""
-    _make_pattern_swimlane_slide(
+    """Slide 08d -- Data Mesh Architecture (vertical flow diagram)."""
+    _make_pattern_flow_slide(
         prs,
         title="Data Mesh",
-        subtitle="Domain-owned data products. The org chart, expressed in storage.",
-        highlight_lanes={"sources", "ingestion", "storage", "insight"},
-        active_items={
-            "sources": ["Retail Domain", "Cards Domain", "Wealth Domain", "Risk Domain"],
-            "ingestion": ["Per-domain pipelines", "Data contracts", "Schema registry"],
-            "storage": ["Domain Lakehouse (Cards)", "Domain Lakehouse (Retail)", "Domain Lakehouse (Wealth)"],
-            "insight": ["Cross-domain analytics", "Data product discovery", "Federated governance"],
-        },
+        subtitle="Domain-owned data products. The org chart in storage.",
+        layers=[
+            ("CROSS-DOMAIN CONSUMERS", ["Customer 360", "Fraud modelling", "Reg reporting"]),
+            ("DATA PRODUCT CONTRACTS", ["Schema contracts (JSON)", "SLAs, freshness, quality"]),
+            ("DOMAIN LAKEHOUSES", ["Cards (Iceberg)", "Retail (Iceberg)", "Wealth (Iceberg)"]),
+            ("PER-DOMAIN PIPELINES", ["Domain-owned ETL", "Schema registry"]),
+            ("PLATFORM TEAM", ["Catalog, discovery, governance", "Federated compute governance"]),
+            ("DOMAIN SOURCES", ["Cards systems", "Retail systems", "Wealth systems"]),
+        ],
+        accent_color=LANE_PALETTE["storage"]["bar"],  # blue
+        accent_light=RGBColor(0xE0, 0xE6, 0xFB),
         page=11,
+        differentiator=[
+            "Domains own their data as products",
+            "Central platform team provides runway",
+            "Contracts enforce quality at boundaries",
+            "Federated governance, not anarchy",
+            "Requires org maturity + product thinking",
+            "18-month minimum to working mesh",
+        ],
         notes=(
             "Mesh is not a technology \u2014 it's an org chart expressed in storage. Each domain owns its "
             "lakehouse and publishes data products with contracts. The platform team provides the runway. "
@@ -1658,20 +1707,29 @@ def make_slide_08d_mesh(prs):
 
 
 def make_slide_08e_fabric(prs):
-    """Slide 08e -- Data Fabric Architecture (swimlane diagram)."""
-    _make_pattern_swimlane_slide(
+    """Slide 08e -- Data Fabric Architecture (vertical flow diagram)."""
+    _make_pattern_flow_slide(
         prs,
         title="Data Fabric",
-        subtitle="The meta-pattern. AI-driven governance spanning all other patterns.",
-        highlight_lanes={"sources", "ingestion", "storage", "motion", "insight"},
-        active_items={
-            "sources": ["System of Record", "Application Data", "Third-Party", "Content Services"],
-            "ingestion": ["Automated discovery", "AI-classified ingestion", "Policy-aware routing"],
-            "storage": ["Warehouse", "Lakehouse", "Lake", "Vector / Search"],
-            "motion": ["Automated lineage", "Quality monitoring", "Schema drift detection"],
-            "insight": ["Knowledge Catalog", "Self-serve discovery", "Federated governance"],
-        },
+        subtitle="The meta-pattern. AI-driven governance spanning all.",
+        layers=[
+            ("SELF-SERVE DISCOVERY", ["Knowledge Catalog", "Automated recommendations"]),
+            ("AI METADATA LAYER", ["AI classification", "Automated lineage", "Quality monitoring"]),
+            ("UNDERLYING PATTERNS", ["Warehouse", "Lakehouse", "Lake", "External"]),
+            ("POLICY-AWARE ROUTING", ["Schema drift detection", "Governance-first ingestion"]),
+            ("HETEROGENEOUS SOURCES", ["Db2, Oracle, Iceberg", "PDFs, APIs, third-party"]),
+        ],
+        accent_color=LANE_PALETTE["governance"]["bar"],  # ochre
+        accent_light=RGBColor(0xF2, 0xE4, 0xD2),
         page=12,
+        differentiator=[
+            "Doesn\u2019t replace other patterns \u2014 governs them",
+            "AI automates metadata, lineage, quality",
+            "Spans heterogeneous estates",
+            "Self-serve discovery for consumers",
+            "IBM Knowledge Catalog is the anchor",
+            "Best for: mixed Db2 + Oracle + Iceberg + files",
+        ],
         notes=(
             "Fabric is the meta-pattern. It doesn't replace the others \u2014 it automates the governance "
             "layer across all of them. The metadata layer knows where everything is, who owns it, how "
