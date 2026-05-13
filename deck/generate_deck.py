@@ -240,7 +240,7 @@ def set_notes(slide, text: str):
     tf.text = text
 
 
-def add_footer(slide, chapter: str, page: int, total: int = 55):
+def add_footer(slide, chapter: str, page: int, total: int = 58):
     """Add a standard footer bar: chapter label left, page number right."""
     y = SLIDE_H - Inches(0.45)
     add_rule(slide, MARGIN_L, y, CONTENT_W, color=RULE, weight=0.75)
@@ -689,25 +689,9 @@ def make_slide_02_hook(prs):
 
 
 def make_slide_03_refarch(prs):
-    """Slide 03 -- Full Reference Architecture diagram."""
+    """Slide 03 -- Reference Architecture overview (functional blocks, SVG-based)."""
     slide = add_slide(prs)
-
-    # Title above diagram
-    add_textbox(
-        slide,
-        MARGIN_L,
-        Inches(0.3),
-        CONTENT_W,
-        Inches(0.5),
-        "Reference Architecture \u2014 IBM Software Hub (Cloud Pak for Data Platform)",
-        font_name=FONT_DISPLAY,
-        size=PT_SUBTITLE,
-        color=INK,
-        bold=True,
-    )
-    add_diagram_or_placeholder(
-        slide, "refarch-full.png", "Full Reference Architecture \u2014 IBM Software Hub", top=Inches(1.0)
-    )
+    add_diagram_or_placeholder(slide, "refarch-overview.png", "Reference Architecture \u2014 Overview", top=Inches(0.1))
 
     add_footer(slide, "Opening", 3)
 
@@ -765,448 +749,37 @@ def _add_lane_block(slide, left, top, width, height, label, items, bar_color, ch
         chip_x += text_w + col_gap
 
 
-def make_slide_03b_refarch_overview(prs):
-    """Slide 03b -- Ref Arch Overview: color-coded swimlane diagram."""
+def make_slide_03b_refarch_detail(prs):
+    """Slide 03b -- Ref Arch with IBM products named (CPD detail, SVG-based)."""
     slide = add_slide(prs)
-
-    # Header
-    add_textbox(
-        slide,
-        MARGIN_L,
-        Inches(0.25),
-        CONTENT_W,
-        Inches(0.25),
-        "\u00a7 00 \u2014 SOFTWARE HUB \u00b7 REFERENCE ARCHITECTURE",
-        font_name=FONT_MONO,
-        size=8,
-        color=ACCENT,
+    add_diagram_or_placeholder(
+        slide, "refarch-cpd.png", "Reference Architecture \u2014 Product Mapping", top=Inches(0.1)
     )
-    add_textbox(
-        slide,
-        MARGIN_L,
-        Inches(0.52),
-        CONTENT_W,
-        Inches(0.5),
-        "The diagram every Software Hub conversation comes back to.",
-        font_name=FONT_DISPLAY,
-        size=24,
-        color=INK,
-        bold=True,
-    )
-
-    # Layout geometry
-    gov_w = Inches(2.0)  # left governance rail
-    gov_left = MARGIN_L
-    lanes_left = gov_left + gov_w + Inches(0.1)
-    lanes_w = CONTENT_W - gov_w - Inches(0.1)
-    base_y = Inches(1.2)
-    lane_h = Inches(0.72)
-    lane_gap = Inches(0.06)
-
-    # ── Left rail: Governance ──
-    gov_bar = LANE_PALETTE["governance"]["bar"]
-    gov_chip_bg = LANE_PALETTE["governance"]["chip"]
-    add_rect(slide, gov_left, base_y, gov_w, Inches(0.3), fill=gov_bar)
-    add_textbox(
-        slide,
-        gov_left + Inches(0.1),
-        base_y + Inches(0.02),
-        gov_w - Inches(0.2),
-        Inches(0.26),
-        "INFORMATION & MODEL\nMANAGEMENT & GOVERNANCE",
-        font_name=FONT_MONO,
-        size=7,
-        color=WHITE,
-    )
-    gov_items = [
-        "Business Glossary",
-        "Data Lineage",
-        "Data Quality",
-        "Regulatory Privacy",
-        "MDM / Match 360",
-        "Catalog",
-    ]
-    chip_y = base_y + Inches(0.36)
-    for item in gov_items:
-        add_rect(
-            slide,
-            gov_left + Inches(0.08),
-            chip_y,
-            gov_w - Inches(0.16),
-            Inches(0.22),
-            fill=gov_chip_bg,
-            line_color=RULE,
-        )
-        add_textbox(
-            slide,
-            gov_left + Inches(0.16),
-            chip_y + Inches(0.02),
-            gov_w - Inches(0.32),
-            Inches(0.18),
-            item,
-            font_name=FONT_BODY,
-            size=8,
-            color=LANE_PALETTE["governance"]["bar"],
-        )
-        chip_y += Inches(0.24)
-    # Security + Platform text
-    add_textbox(
-        slide,
-        gov_left + Inches(0.1),
-        chip_y + Inches(0.08),
-        gov_w - Inches(0.2),
-        Inches(0.3),
-        "SECURITY\nPLATFORM INFRASTRUCTURE",
-        font_name=FONT_MONO,
-        size=7,
-        color=SLATE,
-    )
-
-    # ── Center: 5 stacked lanes ──
-    lanes = [
-        (
-            "ACTIONABLE INSIGHT",
-            "insight",
-            [
-                "Enhanced Applications",
-                "Customer Insights",
-                "New Business Models",
-                "Forecasting, Planning & Analysis",
-                "Compliance & Fraud",
-                "Security Operations & Risk",
-                "Discovery & Exploration",
-            ],
-        ),
-        (
-            "ANALYTICS IN-MOTION",
-            "motion",
-            ["Real-time scoring", "Streaming aggregates", "Event triggers", "Online features"],
-        ),
-        (
-            "ANALYTICAL DATA MANAGEMENT & STORAGE",
-            "storage",
-            ["Warehouse", "Lakehouse", "Lake (Object Storage)", "Vector / Search", "Operational Stores"],
-        ),
-        (
-            "INGESTION & INTEGRATION \u00b7 DATA ACCESS",
-            "ingestion",
-            ["Batch ETL", "CDC", "Streaming", "API / Files", "Federation", "Replication"],
-        ),
-        (
-            "DATA SOURCES",
-            "sources",
-            [
-                "System of Record",
-                "Application Data",
-                "Transactional",
-                "Third-Party",
-                "Social",
-                "Weather",
-                "Internet Data Sets",
-                "Content Services",
-                "Image & Video",
-                "Machine & Sensor",
-            ],
-        ),
-    ]
-
-    y = base_y
-    for label, lane_key, items in lanes:
-        lp = LANE_PALETTE[lane_key]
-        _add_lane_block(slide, lanes_left, y, lanes_w, lane_h, label, items, lp["bar"], lp["chip"], lp["bar"])
-        y += lane_h + lane_gap
-
-    # Footer annotations
-    add_textbox(
-        slide,
-        MARGIN_L,
-        y + Inches(0.1),
-        Inches(7),
-        Inches(0.2),
-        "ADAPTED FROM SOFTWARE HUB 5.2 REFERENCE ARCHITECTURE \u00b7 FOR TEACHING PURPOSES",
-        font_name=FONT_MONO,
-        size=7,
-        color=SLATE,
-    )
-    add_textbox(
-        slide,
-        SLIDE_W - MARGIN_R - Inches(5),
-        y + Inches(0.1),
-        Inches(5),
-        Inches(0.2),
-        "EACH PATTERN IN THIS DECK LIVES IN 1\u20132 LANES ABOVE",
-        font_name=FONT_MONO,
-        size=7,
-        color=SLATE,
-        align=PP_ALIGN.RIGHT,
-    )
-    add_footer(slide, "Reference Architecture", 3)
-
+    add_footer(slide, "Opening", 4)
     set_notes(
         slide,
         (
-            "This is the reference architecture \u2014 the one diagram the whole half-day comes back to. "
-            "Five horizontal lanes: sources at the bottom, ingestion, then analytical storage in the center "
-            "(where watsonx.data lives), analytics in-motion above that, and actionable insight at the top. "
-            "Governance runs vertically on the left. Every pattern we discuss maps to one or two of these lanes."
-        ),
-    )
-
-
-def make_slide_03c_refarch_products(prs):
-    """Slide 03c -- Ref Arch Products: IBM components named per lane."""
-    slide = add_slide(prs)
-
-    # Header
-    add_textbox(
-        slide,
-        MARGIN_L,
-        Inches(0.25),
-        CONTENT_W,
-        Inches(0.25),
-        "\u00a7 00 \u2014 SOFTWARE HUB \u00b7 PRODUCT MAPPING",
-        font_name=FONT_MONO,
-        size=8,
-        color=ACCENT,
-    )
-    add_textbox(
-        slide,
-        MARGIN_L,
-        Inches(0.52),
-        CONTENT_W,
-        Inches(0.5),
-        "The same five lanes \u2014 now with the IBM components named.",
-        font_name=FONT_DISPLAY,
-        size=24,
-        color=INK,
-        bold=True,
-    )
-
-    # Layout geometry
-    gov_w = Inches(1.7)
-    deploy_w = Inches(1.7)
-    gov_left = MARGIN_L
-    deploy_left = SLIDE_W - MARGIN_R - deploy_w
-    lanes_left = gov_left + gov_w + Inches(0.08)
-    lanes_w = deploy_left - lanes_left - Inches(0.08)
-    base_y = Inches(1.15)
-    lane_h = Inches(0.62)
-    lane_gap = Inches(0.05)
-
-    # ── Left rail: IBM Knowledge Catalog ──
-    gov_bar = LANE_PALETTE["governance"]["bar"]
-    gov_chip_bg = LANE_PALETTE["governance"]["chip"]
-    add_rect(slide, gov_left, base_y, gov_w, Inches(0.25), fill=gov_bar)
-    add_textbox(
-        slide,
-        gov_left + Inches(0.08),
-        base_y + Inches(0.02),
-        gov_w - Inches(0.16),
-        Inches(0.21),
-        "IBM KNOWLEDGE CATALOG",
-        font_name=FONT_MONO,
-        size=7,
-        color=WHITE,
-    )
-    gov_items = [
-        "Business Glossary",
-        "Data Lineage",
-        "Metadata Enrich",
-        "Regulatory Governance",
-        "Data Quality",
-        "Product Inventory",
-        "AI Accelerators",
-        "MDM Match 360",
-        "Privacy",
-        "Data Master",
-        "watsonx.ai Factsheets",
-    ]
-    chip_y = base_y + Inches(0.3)
-    for item in gov_items:
-        add_rect(
-            slide,
-            gov_left + Inches(0.06),
-            chip_y,
-            gov_w - Inches(0.12),
-            Inches(0.19),
-            fill=gov_chip_bg,
-            line_color=RULE,
-        )
-        add_textbox(
-            slide,
-            gov_left + Inches(0.12),
-            chip_y + Inches(0.01),
-            gov_w - Inches(0.24),
-            Inches(0.17),
-            item,
-            font_name=FONT_MONO,
-            size=7,
-            color=gov_bar,
-        )
-        chip_y += Inches(0.21)
-    # Security label
-    add_textbox(
-        slide,
-        gov_left + Inches(0.06),
-        chip_y + Inches(0.04),
-        gov_w - Inches(0.12),
-        Inches(0.3),
-        "GUARDIUM DATA PROTECTION\nSECURITY (PRE-INTEGRATED)",
-        font_name=FONT_MONO,
-        size=6,
-        color=SLATE,
-    )
-
-    # ── Right rail: Deploy Anywhere ──
-    deploy_bar = LANE_PALETTE["deploy"]["bar"]
-    add_rect(slide, deploy_left, base_y, deploy_w, Inches(0.25), fill=deploy_bar)
-    add_textbox(
-        slide,
-        deploy_left + Inches(0.08),
-        base_y + Inches(0.02),
-        deploy_w - Inches(0.16),
-        Inches(0.21),
-        "DEPLOY ANYWHERE",
-        font_name=FONT_MONO,
-        size=7,
-        color=WHITE,
-    )
-    deploy_opts = [
-        ("IBM Cloud", "SaaS / managed"),
-        ("On-Premise", "Customer DC"),
-        ("Hyper-converged", "Single-node teaching stack"),
-    ]
-    dy = base_y + Inches(0.35)
-    for title, sub in deploy_opts:
-        add_textbox(
-            slide,
-            deploy_left + Inches(0.1),
-            dy,
-            deploy_w - Inches(0.2),
-            Inches(0.2),
-            title,
-            font_name=FONT_DISPLAY,
-            size=11,
-            color=INK,
-            bold=True,
-        )
-        add_textbox(
-            slide,
-            deploy_left + Inches(0.1),
-            dy + Inches(0.18),
-            deploy_w - Inches(0.2),
-            Inches(0.15),
-            sub,
-            font_name=FONT_BODY,
-            size=7,
-            color=SLATE,
-        )
-        dy += Inches(0.42)
-    add_textbox(
-        slide,
-        deploy_left + Inches(0.1),
-        dy + Inches(0.1),
-        deploy_w - Inches(0.2),
-        Inches(0.2),
-        "Same RA. Three substrates.",
-        font_name=FONT_MONO,
-        size=7,
-        color=SLATE,
-    )
-
-    # ── Center: 5 stacked lanes with IBM products ──
-    lanes = [
-        (
-            "ACTIONABLE INSIGHT",
-            "insight",
-            [
-                "Watson Studio",
-                "watsonx.ai",
-                "Watson OpenScale",
-                "Watson Machine Learning",
-                "Orchestration Pipelines",
-                "SPSS Modeler",
-                "Decision Optimization",
-                "Cognos Dashboards",
-                "Cognos Analytics",
-                "Data Intelligence",
-            ],
-        ),
-        ("ANALYTICS IN-MOTION", "motion", ["Apache Kafka", "Data Replication", "Presto (connector)", "Connectivity"]),
-        (
-            "ANALYTICAL STORAGE \u00b7 ON SOFTWARE HUB",
-            "storage",
-            [
-                "watsonx.data",
-                "Db2",
-                "Db2 Warehouse (SMP, MPP)",
-                "MongoDB",
-                "EDB PostgreSQL",
-                "Informix",
-                "Apache Iceberg",
-                "Delta Lake",
-                "Milvus",
-                "Apache Spark SQL",
-                "Hadoop Execution",
-                "Data Virtualization",
-            ],
-        ),
-        (
-            "INGESTION & INTEGRATION \u00b7 DATA ACCESS",
-            "ingestion",
-            [
-                "Data Integration",
-                "Apache Spark (Streaming)",
-                "Search",
-                "Watson Studio",
-                "Data Catalog",
-                "Data Refinery",
-                "Planning Analytics",
-            ],
-        ),
-        (
-            "DATA SOURCES",
-            "sources",
-            [
-                "System of Record",
-                "Application Data",
-                "Content Services",
-                "Images & Video",
-                "Machine & Sensor",
-                "Social",
-                "Watson AI Services (WA, WD, Watson Speech)",
-            ],
-        ),
-    ]
-
-    y = base_y
-    for label, lane_key, items in lanes:
-        lp = LANE_PALETTE[lane_key]
-        _add_lane_block(slide, lanes_left, y, lanes_w, lane_h, label, items, lp["bar"], lp["chip"], lp["bar"])
-        y += lane_h + lane_gap
-
-    # Footer
-    add_textbox(
-        slide,
-        SLIDE_W - MARGIN_R - Inches(6),
-        y + Inches(0.06),
-        Inches(6),
-        Inches(0.2),
-        "ADAPTED FROM SOFTWARE HUB 5.2 \u00b7 CLOUD PAK FOR DATA PLATFORM",
-        font_name=FONT_MONO,
-        size=7,
-        color=SLATE,
-        align=PP_ALIGN.RIGHT,
-    )
-    add_footer(slide, "Reference Architecture", 4)
-
-    set_notes(
-        slide,
-        (
-            "Same five lanes, now with the actual IBM products named. watsonx.data is in the center \u2014 "
+            "Same diagram, now with the actual IBM products named. watsonx.data is in the center \u2014 "
             "the analytical storage lane. Presto, Spark, Db2 are query engines. Knowledge Catalog is the "
             "governance rail on the left. The right rail shows this deploys on IBM Cloud, on-premise, or a "
             "hyper-converged single-node stack for teaching. Every product maps to one lane."
+        ),
+    )
+
+
+def make_slide_03c_warehouse_overlay(prs):
+    """Slide 03c -- Warehouse pattern overlaid on ref-arch (SVG-based)."""
+    slide = add_slide(prs)
+    add_diagram_or_placeholder(slide, "refarch-warehouse-overlay.png", "Warehouse Pattern Overlay", top=Inches(0.1))
+    add_footer(slide, "Opening", 5)
+    set_notes(
+        slide,
+        (
+            "Here is what the warehouse pattern looks like on the reference architecture. "
+            "Only the structured sources light up. Ingestion is DataStage and replication. "
+            "Storage is Db2 Warehouse with star schemas \u2014 no object storage, no Iceberg. "
+            "Data Access and Analytics In-Motion are dimmed \u2014 warehouse is batch SQL. "
+            "The consumption layer is narrow: Cognos BI, reports, planning."
         ),
     )
 
@@ -1455,15 +1028,17 @@ def make_slide_08_decoder_ring(prs):
 
 def _add_arrow(slide, x, y1, y2, color=SLATE):
     """Add a downward arrow connector between two y positions at x."""
-    from pptx.oxml.ns import qn as _qn
-
     connector = slide.shapes.add_connector(1, x, y1, x, y2)  # STRAIGHT
     connector.line.color.rgb = color
     connector.line.width = Pt(1.5)
-    # Add end arrow
+    # Add triangle arrowhead at end
     ln = connector.line._ln
-    tail = ln.makeelement(_qn("a:tailEnd"), {"type": "triangle", "w": "med", "len": "med"})
+    tail = ln.makeelement(qn("a:tailEnd"), {"type": "triangle", "w": "med", "len": "med"})
     ln.append(tail)
+    # Remove theme style so explicit line + arrowhead render correctly
+    style_elem = connector._element.find(qn("p:style"))
+    if style_elem is not None:
+        connector._element.remove(style_elem)
 
 
 def _draw_flow_column(slide, left, top, width, col_height, layers, accent_color, accent_light):
@@ -1603,140 +1178,246 @@ def _make_pattern_flow_slide(prs, title, subtitle, layers, accent_color, accent_
     return slide
 
 
+def _make_pattern_overlay_slide(prs, png_name, title, page, notes_text):
+    """Pattern architecture slide using a ref-arch overlay PNG."""
+    slide = add_slide(prs)
+    add_diagram_or_placeholder(slide, png_name, title, top=Inches(0.1))
+    add_footer(slide, "Block 1 \u2014 Foundations", page)
+    set_notes(slide, notes_text)
+
+
 def make_slide_08b_lake(prs):
-    """Slide 08b -- Data Lake Architecture (vertical flow diagram)."""
-    _make_pattern_flow_slide(
+    """Slide 08b -- Data Lake on ref-arch overlay."""
+    _make_pattern_overlay_slide(
         prs,
-        title="Data Lake",
-        subtitle="Cheap object storage. Schema-on-read.",
-        layers=[
-            ("CONSUMPTION", ["Cognos BI", "Watson Studio", "Spark ML, SPSS"]),
-            ("CURATED ZONE", ["Db2 Warehouse (optional)", "For BI workloads only"]),
-            ("RAW ZONE (LAKE)", ["Object storage (S3, COS)", "Parquet, JSON, CSV, PDFs"]),
-            ("ETL & PROCESSING", ["DataStage", "Spark, Hadoop"]),
-            ("GOVERNANCE (ADDED ON)", ["Knowledge Catalog"]),
-            ("SOURCES", ["Structured, semi-structured, unstructured"]),
-        ],
-        accent_color=LANE_PALETTE["motion"]["bar"],  # teal
-        accent_light=RGBColor(0xDE, 0xEA, 0xE9),
-        page=9,
-        differentiator=[
-            "Schema applied at read time, not write",
-            "Cheap storage for everything raw",
-            "No ACID \u2014 no rollback, no isolation",
-            "Governance is bolted on, not built in",
-            "60% became swamps within 3 years",
-            "Good for: ML feature eng, raw audit retention",
-        ],
-        notes=(
-            "The lake. Cheap storage for everything. Parquet, JSON, CSV, PDFs \u2014 dump it all in and figure "
-            "out the schema later. Some teams did figure it out. Most didn't. The problem: two Spark jobs "
-            "writing to the same prefix with no coordination. No ACID means no rollback, no isolation, "
-            "no history. That's why 60% of bank-built lakes became swamps within three years."
-        ),
+        "refarch-lake-overlay.png",
+        "Data Lake Pattern",
+        9,
+        "The lake. Cheap storage for everything. Parquet, JSON, CSV, PDFs \u2014 dump it all in and figure "
+        "out the schema later. No ACID means no rollback, no isolation, no history. "
+        "That is why 60% of bank-built lakes became swamps within three years.",
     )
 
 
 def make_slide_08c_lakehouse(prs):
-    """Slide 08c -- Lakehouse Architecture (vertical flow diagram)."""
-    _make_pattern_flow_slide(
+    """Slide 08c -- Lakehouse on ref-arch overlay."""
+    _make_pattern_overlay_slide(
         prs,
-        title="Lakehouse",
-        subtitle="One copy, all workloads. ACID over object storage.",
-        layers=[
-            ("CONSUMPTION", ["Cognos BI", "watsonx.ai", "Watson Studio", "Agents, RAG"]),
-            ("QUERY ENGINES", ["Presto, Spark", "Db2 engine"]),
-            ("OPEN TABLE FORMATS", ["Apache Iceberg", "Delta Lake, Milvus vector"]),
-            ("OBJECT STORAGE", ["S3 / COS / MinIO", "Parquet underneath"]),
-            ("ETL + STREAMING", ["DataStage, CDC", "Kafka, real-time ingestion"]),
-            ("SOURCES", ["Structured + unstructured + streaming"]),
-        ],
-        accent_color=LANE_PALETTE["ingestion"]["bar"],  # violet
-        accent_light=RGBColor(0xE8, 0xE2, 0xF5),
-        page=10,
-        differentiator=[
-            "ACID transactions over cheap storage",
-            "Schema evolution \u2014 add columns, not projects",
-            "Time travel \u2014 query any past version",
-            "Partition pruning \u2014 3\u00d7 faster queries",
-            "One copy serves BI + ML + AI",
-            "watsonx.data\u2019s default format",
-        ],
-        notes=(
-            "Same cheap storage, but now with Iceberg on top. ACID means two writers can't corrupt each "
-            "other. Schema evolution means adding a column isn't a two-week project. Time travel means the "
-            'regulator asks "what did it look like on March 15th?" and you answer in one query instead of '
-            "a three-week data recovery project. This is watsonx.data's default format. This is the pitch."
-        ),
+        "refarch-lakehouse-overlay.png",
+        "Lakehouse Pattern",
+        10,
+        "Same cheap storage, but now with Iceberg on top. ACID means two writers cannot corrupt each "
+        "other. Schema evolution means adding a column is not a two-week project. Time travel means the "
+        "regulator asks what did it look like on March 15th and you answer in one query.",
     )
 
 
 def make_slide_08d_mesh(prs):
-    """Slide 08d -- Data Mesh Architecture (vertical flow diagram)."""
-    _make_pattern_flow_slide(
+    """Slide 08d -- Data Mesh on ref-arch overlay."""
+    _make_pattern_overlay_slide(
         prs,
-        title="Data Mesh",
-        subtitle="Domain-owned data products. The org chart in storage.",
-        layers=[
-            ("CROSS-DOMAIN CONSUMERS", ["Customer 360", "Fraud modelling", "Reg reporting"]),
-            ("DATA PRODUCT CONTRACTS", ["Schema contracts (JSON)", "SLAs, freshness, quality"]),
-            ("DOMAIN LAKEHOUSES", ["Cards (Iceberg)", "Retail (Iceberg)", "Wealth (Iceberg)"]),
-            ("PER-DOMAIN PIPELINES", ["Domain-owned ETL", "Schema registry"]),
-            ("PLATFORM TEAM", ["Catalog, discovery, governance", "Federated compute governance"]),
-            ("DOMAIN SOURCES", ["Cards systems", "Retail systems", "Wealth systems"]),
-        ],
-        accent_color=LANE_PALETTE["storage"]["bar"],  # blue
-        accent_light=RGBColor(0xE0, 0xE6, 0xFB),
-        page=11,
-        differentiator=[
-            "Domains own their data as products",
-            "Central platform team provides runway",
-            "Contracts enforce quality at boundaries",
-            "Federated governance, not anarchy",
-            "Requires org maturity + product thinking",
-            "18-month minimum to working mesh",
-        ],
-        notes=(
-            "Mesh is not a technology \u2014 it's an org chart expressed in storage. Each domain owns its "
-            "lakehouse and publishes data products with contracts. The platform team provides the runway. "
-            'The question isn\'t "should we do mesh?" \u2014 it\'s "does our org have the product thinking '
-            "maturity to sustain it?\" Most don't. The ones that do usually have 500+ data engineers and "
-            "a sponsoring exec."
-        ),
+        "refarch-mesh-overlay.png",
+        "Data Mesh Pattern",
+        11,
+        "Mesh is not a technology \u2014 it is an org chart expressed in storage. Each domain owns its "
+        "lakehouse and publishes data products with contracts. The platform team provides the runway.",
     )
 
 
 def make_slide_08e_fabric(prs):
-    """Slide 08e -- Data Fabric Architecture (vertical flow diagram)."""
-    _make_pattern_flow_slide(
+    """Slide 08e -- Data Fabric on ref-arch overlay."""
+    _make_pattern_overlay_slide(
         prs,
-        title="Data Fabric",
-        subtitle="The meta-pattern. AI-driven governance spanning all.",
-        layers=[
-            ("SELF-SERVE DISCOVERY", ["Knowledge Catalog", "Automated recommendations"]),
-            ("AI METADATA LAYER", ["AI classification", "Automated lineage", "Quality monitoring"]),
-            ("UNDERLYING PATTERNS", ["Warehouse", "Lakehouse", "Lake", "External"]),
-            ("POLICY-AWARE ROUTING", ["Schema drift detection", "Governance-first ingestion"]),
-            ("HETEROGENEOUS SOURCES", ["Db2, Oracle, Iceberg", "PDFs, APIs, third-party"]),
-        ],
-        accent_color=LANE_PALETTE["governance"]["bar"],  # ochre
-        accent_light=RGBColor(0xF2, 0xE4, 0xD2),
-        page=12,
-        differentiator=[
-            "Doesn\u2019t replace other patterns \u2014 governs them",
-            "AI automates metadata, lineage, quality",
-            "Spans heterogeneous estates",
-            "Self-serve discovery for consumers",
-            "IBM Knowledge Catalog is the anchor",
-            "Best for: mixed Db2 + Oracle + Iceberg + files",
-        ],
-        notes=(
-            "Fabric is the meta-pattern. It doesn't replace the others \u2014 it automates the governance "
-            "layer across all of them. The metadata layer knows where everything is, who owns it, how "
-            "fresh it is, and what policies apply. AI-assisted classification, automated lineage, self-serve "
-            "discovery. This is where IBM's Knowledge Catalog plays. When the customer has a heterogeneous "
-            "estate \u2014 Db2, Oracle, Iceberg, and a folder of PDFs \u2014 fabric is the answer. When "
-            "they're greenfield single-cloud, it's overkill."
+        "refarch-fabric-overlay.png",
+        "Data Fabric Pattern",
+        12,
+        "Fabric is the meta-pattern. It does not replace the others \u2014 it automates the governance "
+        "layer across all of them. AI-assisted classification, automated lineage, self-serve discovery. "
+        "This is where IBM Knowledge Catalog plays.",
+    )
+
+
+def make_slide_08f_pattern_comparison(prs):
+    """Slide 08f -- Side-by-side comparison (all 6 patterns as compact columns)."""
+    slide = add_slide(prs)
+    add_diagram_or_placeholder(slide, "pattern-comparison.png", "Pattern Comparison", top=Inches(0.1))
+    add_footer(slide, "Block 1 \u2014 Foundations", 13)
+    set_notes(
+        slide,
+        "Six patterns, one slide. Warehouse is structured, schema-on-write. "
+        "Lake is cheap and raw, schema-on-read. Lakehouse adds ACID and time travel. "
+        "Virtualization federates without moving data. "
+        "Mesh is domain ownership with contracts. Fabric is the AI governance meta-layer.",
+    )
+
+
+def make_slide_08g_synthesis_matrix(prs):
+    """Slide 08g -- Synthesis matrix: workload vs pattern fit."""
+    slide = add_slide(prs)
+    add_field_guide_header(
+        slide,
+        "\u00a7 1.3 \u2014 CHOOSING BETWEEN THE SIX",
+        "The matrix you can draw on a napkin.",
+        page=14,
+        chapter="Block 1 \u2014 Foundations",
+    )
+
+    # Matrix data: workload → WH DL LH V M F
+    # \u25cf = strong, \u25d0 = possible, \u25cb = wrong tool
+    headers = ["WORKLOAD", "WH", "DL", "LH", "V", "M", "F"]
+    rows = [
+        ["Regulatory BI", "\u25cf", "\u25cb", "\u25cf", "\u25d0", "\u25d0", "\u25d0"],
+        ["Ad-hoc ML feature eng.", "\u25cb", "\u25d0", "\u25cf", "\u25d0", "\u25cf", "\u25d0"],
+        ["Unstructured / RAG", "\u25cb", "\u25cf", "\u25cf", "\u25d0", "\u25cf", "\u25cf"],
+        ["Cross-system join", "\u25d0", "\u25cb", "\u25d0", "\u25cf", "\u25cf", "\u25cf"],
+        ["Schema evolves weekly", "\u25cb", "\u25d0", "\u25cf", "\u25d0", "\u25cf", "\u25d0"],
+        ["Data residency hard-line", "\u25cb", "\u25cb", "\u25cb", "\u25cf", "\u25cf", "\u25cf"],
+    ]
+
+    data = [headers] + rows
+    add_table(
+        slide,
+        MARGIN_L,
+        Inches(1.8),
+        CONTENT_W,
+        data,
+        header_font=FONT_MONO,
+        header_size=9,
+        body_font=FONT_MONO,
+        body_size=14,
+    )
+
+    # Legend
+    add_textbox(
+        slide,
+        MARGIN_L,
+        Inches(5.6),
+        CONTENT_W,
+        Inches(0.3),
+        "\u25cf Strong fit    \u25d0 Possible    \u25cb Wrong tool",
+        font_name=FONT_MONO,
+        size=PT_MONO,
+        color=SLATE,
+    )
+
+    set_notes(
+        slide,
+        (
+            "This is the napkin matrix. When a customer describes their workload, find the row. "
+            "The columns tell you which pattern to propose. Most banks need at least three of these "
+            "running simultaneously. The question is never which one \u2014 it's which combination."
+        ),
+    )
+
+
+def make_slide_08h_pros_cons(prs):
+    """Slide 08h -- Pros and cons summary for each pattern."""
+    slide = add_slide(prs)
+    add_field_guide_header(
+        slide,
+        "\u00a7 1.3 \u2014 PATTERN TRADE-OFFS",
+        "What you gain, what you give up.",
+        page=15,
+        chapter="Block 1 \u2014 Foundations",
+    )
+
+    # 6 patterns in 2 rows of 3
+    patterns = [
+        (
+            "Warehouse",
+            ["Strong consistency", "Audit trails", "Mature tooling"],
+            ["No unstructured data", "Expensive to scale", "Schema changes are projects"],
+        ),
+        (
+            "Data Lake",
+            ["Cheapest storage", "All data types", "ML feature eng."],
+            ["No ACID / governance", "60% become swamps", "Schema debt accumulates"],
+        ),
+        (
+            "Lakehouse",
+            ["ACID + time travel", "One copy for all", "Open formats (Iceberg)"],
+            ["Needs Spark/Iceberg skill", "Not sub-ms OLTP", "Newer, less battle-tested"],
+        ),
+        (
+            "Virtualization",
+            ["Zero data movement", "Residency compliance", "Fast prototyping"],
+            ["No pushdown = slow", "Source overload risk", "Not for heavy scans"],
+        ),
+        (
+            "Data Mesh",
+            ["Domain ownership", "Scales with org", "Quality at boundaries"],
+            ["18-month minimum", "Needs product thinking", "Governance is hard"],
+        ),
+        (
+            "Data Fabric",
+            ["Governs everything", "AI-driven metadata", "Self-serve discovery"],
+            ["Overkill if single-cloud", "Complex to implement", "Requires mature catalog"],
+        ),
+    ]
+
+    col_w = Inches(3.7)
+    row_h = Inches(2.2)
+    gap_x = Inches(0.3)
+    gap_y = Inches(0.15)
+    base_x = MARGIN_L
+    base_y = Inches(1.8)
+
+    for i, (name, pros, cons) in enumerate(patterns):
+        col = i % 3
+        row = i // 3
+        x = base_x + col * (col_w + gap_x)
+        y = base_y + row * (row_h + gap_y)
+
+        # Pattern name
+        add_textbox(
+            slide,
+            x,
+            y,
+            col_w,
+            Inches(0.25),
+            name,
+            font_name=FONT_MONO,
+            size=10,
+            color=ACCENT,
+            bold=True,
+        )
+        add_rule(slide, x, y + Inches(0.28), col_w, color=ACCENT, weight=1.5)
+
+        # Pros
+        pros_text = "\n".join(f"\u2713 {p}" for p in pros)
+        add_textbox(
+            slide,
+            x,
+            y + Inches(0.35),
+            col_w / 2 - Inches(0.1),
+            Inches(1.2),
+            pros_text,
+            font_name=FONT_BODY,
+            size=9,
+            color=INK2,
+        )
+
+        # Cons
+        cons_text = "\n".join(f"\u2717 {c}" for c in cons)
+        add_textbox(
+            slide,
+            x + col_w / 2,
+            y + Inches(0.35),
+            col_w / 2,
+            Inches(1.2),
+            cons_text,
+            font_name=FONT_BODY,
+            size=9,
+            color=SLATE,
+        )
+
+    set_notes(
+        slide,
+        (
+            "Every pattern has trade-offs. Warehouse gives you consistency but can't handle unstructured data. "
+            "Lake is cheap but ungoverned. Lakehouse is the pragmatic middle but needs Iceberg skill. "
+            "Virtualization is elegant but breaks on heavy scans. Mesh is powerful but takes 18 months. "
+            "Fabric governs everything but is overkill for simple estates. Know the trade-offs before you pitch."
         ),
     )
 
@@ -3401,8 +3082,8 @@ SLIDE_BUILDERS = [
     make_slide_01_cover,  # 1
     make_slide_02_hook,  # 2
     make_slide_03_refarch,  # 3
-    make_slide_03b_refarch_overview,  # 3b — color-coded swimlane overview
-    make_slide_03c_refarch_products,  # 3c — IBM product mapping
+    make_slide_03b_refarch_detail,  # 3b — ref-arch with IBM products
+    make_slide_03c_warehouse_overlay,  # 3c — warehouse pattern on ref-arch
     make_slide_04_roles,  # 4
     # Block 1 — Foundations (05-14 + 08b-08e)
     make_slide_05_divider_foundations,  # 5
@@ -3413,56 +3094,81 @@ SLIDE_BUILDERS = [
     make_slide_08c_lakehouse,  # 10 (08c)
     make_slide_08d_mesh,  # 11 (08d)
     make_slide_08e_fabric,  # 12 (08e)
-    make_slide_09_cameo_warehouse,  # 13
-    make_slide_10_cameo_virtualization,  # 14
-    make_slide_11_mdm,  # 15
-    make_slide_12_ibm_stack,  # 16
-    make_slide_13_annotated1,  # 17
-    make_slide_14_transition_quote,  # 18
-    # Block 2 — AI-Era (15-28)
-    make_slide_15_divider_ai,  # 19
-    make_slide_16_what_changed,  # 20
-    make_slide_17_rag_pipeline,  # 21
-    make_slide_18_docling,  # 22
-    make_slide_19_opensearch,  # 23
-    make_slide_20_vector_stores,  # 24
-    make_slide_21_context_engineering,  # 25
-    make_slide_22_agent_data_plane,  # 26
-    make_slide_23_open_rag,  # 27
-    make_slide_24_mcp,  # 28
-    make_slide_25_context_forge,  # 29
-    make_slide_26_notebook_teaser,  # 30
-    make_slide_27_annotated2,  # 31
-    make_slide_28_transition_quote2,  # 32
-    # Block 3 — Governance (29-39)
-    make_slide_29_divider_governance,  # 33
-    make_slide_30_governance_triad,  # 34
-    make_slide_31_regulated,  # 35
-    make_slide_32_sovereignty,  # 36
-    make_slide_33_observability,  # 37
-    make_slide_34_10_domain,  # 38
-    make_slide_35_bank_questionnaire,  # 39
-    make_slide_36_factsheets,  # 40
-    make_slide_37_threat_model,  # 41
-    make_slide_38_annotated3,  # 42
-    make_slide_39_ibm_strengths_gaps,  # 43
-    # Block 4 — Hands-on (40-45)
-    make_slide_40_divider_handson,  # 44
-    make_slide_41_setup,  # 45
-    make_slide_42_notebook_map,  # 46
-    make_slide_43_live_nb3,  # 47
-    make_slide_44_live_nb6,  # 48
-    make_slide_45_critique,  # 49
-    # Block 5 — Close (46-49)
-    make_slide_46_takeaway,  # 50
-    make_slide_47_monday_actions,  # 51
-    make_slide_48_pointers,  # 52
-    make_slide_49_closing,  # 53
+    make_slide_08f_pattern_comparison,  # 13 — side-by-side comparison
+    make_slide_08g_synthesis_matrix,  # 14 — workload × pattern fit matrix
+    make_slide_08h_pros_cons,  # 15 — pros and cons summary
+    make_slide_09_cameo_warehouse,  # 16
+    make_slide_10_cameo_virtualization,  # 17
+    make_slide_11_mdm,  # 18
+    make_slide_12_ibm_stack,  # 19
+    make_slide_13_annotated1,  # 20
+    make_slide_14_transition_quote,  # 21
+    # Block 2 — AI-Era
+    make_slide_15_divider_ai,  # 22
+    make_slide_16_what_changed,  # 23
+    make_slide_17_rag_pipeline,  # 24
+    make_slide_18_docling,  # 25
+    make_slide_19_opensearch,  # 26
+    make_slide_20_vector_stores,  # 27
+    make_slide_21_context_engineering,  # 28
+    make_slide_22_agent_data_plane,  # 29
+    make_slide_23_open_rag,  # 30
+    make_slide_24_mcp,  # 31
+    make_slide_25_context_forge,  # 32
+    make_slide_26_notebook_teaser,  # 33
+    make_slide_27_annotated2,  # 34
+    make_slide_28_transition_quote2,  # 35
+    # Block 3 — Governance
+    make_slide_29_divider_governance,  # 36
+    make_slide_30_governance_triad,  # 37
+    make_slide_31_regulated,  # 38
+    make_slide_32_sovereignty,  # 39
+    make_slide_33_observability,  # 40
+    make_slide_34_10_domain,  # 41
+    make_slide_35_bank_questionnaire,  # 42
+    make_slide_36_factsheets,  # 43
+    make_slide_37_threat_model,  # 44
+    make_slide_38_annotated3,  # 45
+    make_slide_39_ibm_strengths_gaps,  # 46
+    # Block 4 — Hands-on
+    make_slide_40_divider_handson,  # 47
+    make_slide_41_setup,  # 48
+    make_slide_42_notebook_map,  # 49
+    make_slide_43_live_nb3,  # 50
+    make_slide_44_live_nb6,  # 51
+    make_slide_45_critique,  # 52
+    # Block 5 — Close
+    make_slide_46_takeaway,  # 53
+    make_slide_47_monday_actions,  # 54
+    make_slide_48_pointers,  # 55
+    make_slide_49_closing,  # 56
 ]
 
 
+def _fix_page_numbers(prs):
+    """Post-process: fix all footer page numbers to match actual slide positions.
+
+    Each slide's last right-aligned text box in the footer zone is the page number.
+    Overwrite it with the correct "N / total" string.
+    """
+    total = len(prs.slides)
+    footer_y_min = SLIDE_H - Inches(0.5)
+
+    for idx, slide in enumerate(prs.slides, 1):
+        # Find the rightmost text box in the footer zone
+        for shape in slide.shapes:
+            if not shape.has_text_frame:
+                continue
+            if shape.top < footer_y_min:
+                continue
+            text = shape.text_frame.text.strip()
+            # Match "N / M" pattern (page number text box)
+            if "/" in text and text.replace(" ", "").replace("/", "").isdigit():
+                shape.text_frame.paragraphs[0].runs[0].text = f"{idx} / {total}"
+
+
 def build_deck() -> Path:
-    """Build the complete 53-slide presentation and write to disk."""
+    """Build the complete presentation and write to disk."""
     prs = Presentation()
 
     # Set slide dimensions to 16:9 widescreen
@@ -3471,6 +3177,9 @@ def build_deck() -> Path:
 
     for builder in SLIDE_BUILDERS:
         builder(prs)
+
+    # Fix all page numbers to match actual slide positions
+    _fix_page_numbers(prs)
 
     out_dir = Path(__file__).parent
     out_path = out_dir / "data-architecture-ai-era.pptx"
@@ -3481,9 +3190,6 @@ def build_deck() -> Path:
     print(f"Deck saved: {out_path}")
     print(f"  Slides : {slide_count}")
     print(f"  Size   : {file_size:,} bytes ({file_size / 1024:.0f} KB)")
-
-    if slide_count != 55:
-        print(f"  WARNING: expected 55 slides, got {slide_count}")
     if file_size < 100_000:
         print(f"  WARNING: file is under 100 KB ({file_size:,} bytes)")
 

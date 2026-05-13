@@ -1,0 +1,146 @@
+<svg width="100%" viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg">
+  <title>Reference Architecture — Data Virtualization Pattern Overlay</title>
+
+  <rect width="1400" height="760" fill="#F4F2EC"/>
+
+  <!-- Title -->
+  <text x="700" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="400" fill="#15171A">Reference Architecture — Data Virtualization Pattern</text>
+  <text x="700" y="46" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#5C6470">Federated queries, no data movement · Components highlighted in blue</text>
+
+  <!-- ═══ COLUMN 1: Data Sources — PARTIALLY ACTIVE ═══ -->
+  <rect x="15" y="55" width="150" height="480" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="90" y="78" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Data Sources</text>
+
+  <!-- Dimmed: unstructured sources virt typically can't query -->
+  <rect x="25" y="92" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Machine &amp; Sensor</text>
+  <rect x="25" y="126" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="146" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Image &amp; Video</text>
+  <rect x="25" y="160" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Content Services</text>
+  <rect x="25" y="194" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="214" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Social Data</text>
+  <!-- Active: structured sources virtualization can query -->
+  <rect x="25" y="228" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="248" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Relational DBs</text>
+  <rect x="25" y="262" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="282" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Data Warehouses</text>
+  <rect x="25" y="296" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="316" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Cloud Data Stores</text>
+  <rect x="25" y="330" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="350" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Transactional Data</text>
+  <rect x="25" y="364" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="384" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Application Data</text>
+  <rect x="25" y="398" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="418" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">System of Record</text>
+
+  <!-- Vertical label -->
+  <rect x="168" y="55" width="22" height="480" rx="3" fill="#E3F2FD" stroke="#90CAF9" stroke-width="0.5"/>
+  <text x="179" y="320" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#1565C0" transform="rotate(-90,179,320)">Data acquisition &amp; application access</text>
+
+  <!-- ═══ COLUMN 2: Ingestion — DIMMED (no data movement!) ═══ -->
+  <rect x="200" y="55" width="130" height="430" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="265" y="200" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white" opacity="0.4">Ingestion &amp;</text>
+  <text x="265" y="215" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white" opacity="0.4">Integration</text>
+  <text x="265" y="260" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-style="italic" fill="#78909C">No data movement</text>
+  <text x="265" y="276" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-style="italic" fill="#78909C">Queries go</text>
+  <text x="265" y="292" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-style="italic" fill="#78909C">to sources</text>
+
+  <!-- ═══ COLUMN 3: Storage — PARTIALLY ACTIVE (existing stores queried in place) ═══ -->
+  <rect x="340" y="55" width="380" height="430" rx="6" fill="#1565C0" stroke="#42A5F5" stroke-width="0.5" opacity="0.7"/>
+  <text x="530" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white">Analytical Data Management &amp; Storage</text>
+
+  <!-- Multiple existing stores sub-boxes -->
+  <rect x="355" y="95" width="165" height="120" rx="4" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+  <text x="437" y="115" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="rgba(255,255,255,0.9)">Db2 Warehouse</text>
+  <rect x="375" y="125" width="125" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="437" y="141" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">SMP / MPP</text>
+  <rect x="375" y="155" width="125" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="437" y="171" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Star schemas</text>
+
+  <rect x="530" y="95" width="175" height="120" rx="4" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+  <text x="617" y="115" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="rgba(255,255,255,0.9)">Object Lake</text>
+  <rect x="545" y="125" width="145" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="617" y="141" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">S3 / COS</text>
+  <rect x="545" y="155" width="145" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="617" y="171" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Parquet, Iceberg</text>
+
+  <rect x="355" y="225" width="350" height="80" rx="4" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+  <text x="530" y="245" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="600" fill="rgba(255,255,255,0.9)">Operational Postgres</text>
+  <rect x="420" y="258" width="220" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="530" y="274" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">OLTP tables, operational data</text>
+
+  <!-- Note -->
+  <text x="530" y="370" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-style="italic" fill="rgba(255,255,255,0.6)">Data stays in place</text>
+  <text x="530" y="388" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-style="italic" fill="rgba(255,255,255,0.6)">Virt layer queries across all stores</text>
+
+  <!-- ═══ COLUMN 4: Data Access — ACTIVE & PROMINENT (this IS virtualization) ═══ -->
+  <rect x="730" y="55" width="120" height="430" rx="6" fill="#1565C0" stroke="#42A5F5" stroke-width="1.5"/>
+  <text x="790" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Data Access</text>
+  <rect x="740" y="100" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="116" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data Virtualization</text>
+  <rect x="740" y="130" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="145" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Presto / watsonx.data</text>
+  <rect x="740" y="160" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Db2 Big SQL</text>
+  <rect x="740" y="190" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="205" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Cost-based optimizer</text>
+  <rect x="740" y="220" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="236" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">JDBC connectors</text>
+
+  <!-- ═══ Discovery — DIMMED ═══ -->
+  <rect x="860" y="55" width="525" height="65" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="1122" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="white" opacity="0.4">Discovery &amp; Exploration</text>
+
+  <!-- ═══ Actionable Insight — ACTIVE ═══ -->
+  <rect x="860" y="130" width="330" height="355" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="1025" y="155" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white">Actionable Insight</text>
+  <rect x="910" y="170" width="230" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1025" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Cognos BI</text>
+  <rect x="910" y="200" width="230" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1025" y="216" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Watson Studio</text>
+  <rect x="910" y="230" width="230" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1025" y="246" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">watsonx.ai</text>
+  <rect x="910" y="260" width="230" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1025" y="276" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Ad-hoc SQL</text>
+
+  <!-- ═══ Enhanced Applications — ACTIVE (some items) ═══ -->
+  <rect x="1200" y="130" width="185" height="355" rx="6" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="1292" y="156" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#15171A">Enhanced</text>
+  <text x="1292" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#15171A">Applications</text>
+  <rect x="1212" y="190" width="160" height="28" rx="4" fill="#FFECB3" stroke="#FFD54F" stroke-width="0.5"/>
+  <text x="1292" y="209" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#15171A">Cross-system reports</text>
+  <rect x="1212" y="224" width="160" height="28" rx="4" fill="#FFECB3" stroke="#FFD54F" stroke-width="0.5"/>
+  <text x="1292" y="243" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#15171A">Federated dashboards</text>
+  <rect x="1212" y="258" width="160" height="28" rx="4" fill="#FFECB3" stroke="#FFD54F" stroke-width="0.5"/>
+  <text x="1292" y="277" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#15171A">Real-time views</text>
+
+  <!-- ═══ Analytics In-Motion — DIMMED ═══ -->
+  <rect x="200" y="492" width="650" height="43" rx="4" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="525" y="520" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" opacity="0.4">Analytics In-Motion</text>
+
+  <!-- ═══ Governance — ACTIVE ═══ -->
+  <rect x="15" y="548" width="1370" height="42" rx="4" fill="#1565C0" stroke="#1976D2" stroke-width="0.5"/>
+  <text x="200" y="574" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Information and Model Management &amp; Governance</text>
+  <rect x="500" y="556" width="110" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="555" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Row/column policies</text>
+  <rect x="620" y="556" width="85" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="662" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Query audit</text>
+  <rect x="715" y="556" width="110" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="770" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Knowledge Catalog</text>
+
+  <!-- ═══ Security ═══ -->
+  <rect x="15" y="596" width="1370" height="36" rx="4" fill="#64B5F6" stroke="#90CAF9" stroke-width="0.5"/>
+  <text x="700" y="620" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Security</text>
+
+  <!-- ═══ Platform ═══ -->
+  <rect x="15" y="638" width="1370" height="36" rx="4" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="700" y="662" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Platform</text>
+
+  <!-- ═══ Infrastructure ═══ -->
+  <rect x="15" y="680" width="1370" height="36" rx="4" fill="#0D47A1" stroke="#1565C0" stroke-width="0.5"/>
+  <text x="700" y="704" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Infrastructure</text>
+
+  <!-- Footer -->
+  <text x="700" y="740" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#8A93A0" letter-spacing="0.06em">VIRTUALIZATION PATTERN · NO DATA MOVEMENT · DIMMED BLOCKS = NOT USED BY THIS PATTERN</text>
+</svg>

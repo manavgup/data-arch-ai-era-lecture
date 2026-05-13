@@ -1,0 +1,152 @@
+<svg width="100%" viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg">
+  <title>Reference Architecture — Data Mesh Pattern Overlay</title>
+
+  <rect width="1400" height="760" fill="#F4F2EC"/>
+
+  <!-- Title -->
+  <text x="700" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="400" fill="#15171A">Reference Architecture — Data Mesh Pattern</text>
+  <text x="700" y="46" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#5C6470">Domain-owned data products · Components highlighted in blue</text>
+
+  <!-- ═══ COLUMN 1: Data Sources — ACTIVE (domain-specific) ═══ -->
+  <rect x="15" y="55" width="150" height="480" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="90" y="78" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Data Sources</text>
+  <text x="90" y="91" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-style="italic" fill="rgba(255,255,255,0.7)">(domain-specific)</text>
+
+  <!-- Domain sources -->
+  <rect x="25" y="108" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="128" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Cards systems</text>
+  <rect x="25" y="142" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="162" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Retail systems</text>
+  <rect x="25" y="176" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="196" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Wealth systems</text>
+  <rect x="25" y="210" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="230" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Risk systems</text>
+  <rect x="25" y="244" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="264" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Treasury systems</text>
+  <rect x="25" y="278" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="298" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Market data feeds</text>
+
+  <!-- Note -->
+  <text x="90" y="340" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-style="italic" fill="rgba(255,255,255,0.6)">Each domain owns</text>
+  <text x="90" y="354" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-style="italic" fill="rgba(255,255,255,0.6)">its sources</text>
+
+  <!-- Vertical label -->
+  <rect x="168" y="55" width="22" height="480" rx="3" fill="#E3F2FD" stroke="#90CAF9" stroke-width="0.5"/>
+  <text x="179" y="320" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#1565C0" transform="rotate(-90,179,320)">Data acquisition &amp; application access</text>
+
+  <!-- ═══ COLUMN 2: Ingestion — ACTIVE (per-domain pipelines) ═══ -->
+  <rect x="200" y="55" width="130" height="430" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="265" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Ingestion &amp;</text>
+  <text x="265" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Integration</text>
+  <rect x="210" y="115" width="110" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="265" y="131" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Per-domain pipelines</text>
+  <rect x="210" y="145" width="110" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="265" y="161" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Schema registry</text>
+  <rect x="210" y="175" width="110" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="265" y="191" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data contracts</text>
+
+  <!-- ═══ COLUMN 3: Storage — ACTIVE (domain lakehouses side-by-side) ═══ -->
+  <rect x="340" y="55" width="380" height="430" rx="6" fill="#1565C0" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="530" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white">Analytical Data Management &amp; Storage</text>
+
+  <!-- Domain lakehouse sub-boxes side by side -->
+  <rect x="352" y="95" width="115" height="155" rx="4" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+  <text x="409" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.9)">Cards</text>
+  <text x="409" y="124" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.9)">Lakehouse</text>
+  <rect x="360" y="134" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="409" y="149" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Iceberg</text>
+  <rect x="360" y="162" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="409" y="177" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Txn events</text>
+  <rect x="360" y="190" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="409" y="205" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Fraud features</text>
+
+  <rect x="473" y="95" width="115" height="155" rx="4" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+  <text x="530" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.9)">Retail</text>
+  <text x="530" y="124" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.9)">Lakehouse</text>
+  <rect x="481" y="134" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="530" y="149" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Iceberg</text>
+  <rect x="481" y="162" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="530" y="177" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Customer profiles</text>
+  <rect x="481" y="190" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="530" y="205" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Branch analytics</text>
+
+  <rect x="594" y="95" width="115" height="155" rx="4" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+  <text x="651" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.9)">Wealth</text>
+  <text x="651" y="124" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="rgba(255,255,255,0.9)">Lakehouse</text>
+  <rect x="602" y="134" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="651" y="149" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Iceberg</text>
+  <rect x="602" y="162" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="651" y="177" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Portfolio data</text>
+  <rect x="602" y="190" width="98" height="22" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="651" y="205" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Market feeds</text>
+
+  <!-- Note -->
+  <text x="530" y="290" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-style="italic" fill="rgba(255,255,255,0.6)">Each domain owns its lakehouse</text>
+  <text x="530" y="308" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-style="italic" fill="rgba(255,255,255,0.6)">Data products published as APIs</text>
+
+  <!-- ═══ COLUMN 4: Data Access — ACTIVE ═══ -->
+  <rect x="730" y="55" width="120" height="430" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="790" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Data Access</text>
+  <rect x="740" y="100" width="100" height="28" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="117" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Cross-domain queries</text>
+  <rect x="740" y="134" width="100" height="28" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="151" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data product APIs</text>
+
+  <!-- ═══ Discovery — ACTIVE (data product catalog) ═══ -->
+  <rect x="860" y="55" width="525" height="65" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="1000" y="82" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white">Discovery &amp; Exploration</text>
+  <rect x="1100" y="68" width="130" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1165" y="83" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data product catalog</text>
+  <rect x="1240" y="68" width="130" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1305" y="83" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Contract discovery</text>
+
+  <!-- ═══ Actionable Insight — ACTIVE ═══ -->
+  <rect x="860" y="130" width="330" height="355" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="1025" y="155" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white">Actionable Insight</text>
+  <rect x="910" y="170" width="230" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1025" y="186" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Customer 360</text>
+  <rect x="910" y="200" width="230" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1025" y="216" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Fraud modelling</text>
+  <rect x="910" y="230" width="230" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1025" y="246" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Regulatory reporting</text>
+
+  <!-- ═══ Enhanced Applications — ACTIVE ═══ -->
+  <rect x="1200" y="130" width="185" height="355" rx="6" fill="white" stroke="#E0E0E0" stroke-width="1"/>
+  <text x="1292" y="156" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#15171A">Enhanced</text>
+  <text x="1292" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#15171A">Applications</text>
+  <rect x="1212" y="190" width="160" height="28" rx="4" fill="#FFECB3" stroke="#FFD54F" stroke-width="0.5"/>
+  <text x="1292" y="209" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#15171A">Cross-domain analytics</text>
+  <rect x="1212" y="224" width="160" height="28" rx="4" fill="#FFECB3" stroke="#FFD54F" stroke-width="0.5"/>
+  <text x="1292" y="243" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#15171A">Federated governance</text>
+
+  <!-- ═══ Analytics In-Motion — DIMMED ═══ -->
+  <rect x="200" y="492" width="650" height="43" rx="4" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="525" y="520" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" opacity="0.4">Analytics In-Motion</text>
+
+  <!-- ═══ Governance — ACTIVE & PROMINENT ═══ -->
+  <rect x="15" y="548" width="1370" height="42" rx="4" fill="#1565C0" stroke="#0D47A1" stroke-width="1.5"/>
+  <text x="140" y="574" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Federated Computational Governance</text>
+  <rect x="390" y="556" width="130" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="455" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data product contracts</text>
+  <rect x="530" y="556" width="100" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="580" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Platform team</text>
+  <rect x="640" y="556" width="110" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="695" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Knowledge Catalog</text>
+  <rect x="760" y="556" width="85" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="802" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data Quality</text>
+
+  <!-- ═══ Security ═══ -->
+  <rect x="15" y="596" width="1370" height="36" rx="4" fill="#64B5F6" stroke="#90CAF9" stroke-width="0.5"/>
+  <text x="700" y="620" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Security</text>
+
+  <!-- ═══ Platform ═══ -->
+  <rect x="15" y="638" width="1370" height="36" rx="4" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="700" y="662" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Platform</text>
+
+  <!-- ═══ Infrastructure ═══ -->
+  <rect x="15" y="680" width="1370" height="36" rx="4" fill="#0D47A1" stroke="#1565C0" stroke-width="0.5"/>
+  <text x="700" y="704" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Infrastructure</text>
+
+  <!-- Footer -->
+  <text x="700" y="740" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#8A93A0" letter-spacing="0.06em">MESH PATTERN · DOMAIN OWNERSHIP · DIMMED BLOCKS = NOT USED BY THIS PATTERN</text>
+</svg>
