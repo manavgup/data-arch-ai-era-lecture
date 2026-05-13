@@ -1,0 +1,141 @@
+<svg width="100%" viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg">
+  <title>Block 2 — AI + Ingestion Swimlanes</title>
+
+  <rect width="1400" height="760" fill="#F4F2EC"/>
+
+  <!-- Title -->
+  <text x="700" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="400" fill="#15171A">Block 2 — AI + Ingestion Swimlanes</text>
+  <text x="700" y="46" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#5C6470">What Block 2 covered · Highlighted in blue</text>
+
+  <!-- ═══ COLUMN 1: Data Sources — DIMMED ═══ -->
+  <rect x="15" y="55" width="150" height="480" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="90" y="78" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white" opacity="0.4">Data Sources</text>
+  <rect x="25" y="92" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Machine &amp; Sensor</text>
+  <rect x="25" y="126" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="146" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Image &amp; Video</text>
+  <rect x="25" y="160" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Content Services</text>
+  <rect x="25" y="194" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="214" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Transactional Data</text>
+  <rect x="25" y="228" width="130" height="30" rx="4" fill="#E0E0E0" stroke="#BDBDBD" stroke-width="0.5" opacity="0.5"/>
+  <text x="90" y="248" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9E9E9E">Application Data</text>
+
+  <!-- Vertical label dimmed -->
+  <rect x="168" y="55" width="22" height="480" rx="3" fill="#E0E0E0" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="179" y="320" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#9E9E9E" transform="rotate(-90,179,320)" opacity="0.5">Data acquisition &amp; application access</text>
+
+  <!-- ═══ COLUMN 2: Ingestion & Integration — DIMMED ═══ -->
+  <rect x="200" y="55" width="130" height="430" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="265" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white" opacity="0.4">Ingestion &amp;</text>
+  <text x="265" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white" opacity="0.4">Integration</text>
+
+  <!-- ═══ COLUMN 3: Analytical Storage — DIMMED ═══ -->
+  <rect x="340" y="55" width="380" height="430" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="530" y="270" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" opacity="0.4">Analytical Storage</text>
+
+  <!-- ═══ COLUMN 4: Data Access — DIMMED ═══ -->
+  <rect x="730" y="55" width="120" height="430" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="790" y="260" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" opacity="0.4">Data</text>
+  <text x="790" y="280" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" opacity="0.4">Access</text>
+
+  <!-- ═══ COLUMN 5a: Discovery & Exploration — ACTIVE ═══ -->
+  <rect x="860" y="55" width="525" height="65" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="920" y="78" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Discovery &amp;</text>
+  <text x="920" y="93" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Exploration</text>
+  <!-- Chips -->
+  <rect x="990" y="62" width="110" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1045" y="77" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Knowledge Catalog</text>
+  <rect x="1106" y="62" width="85" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1148" y="77" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Watson Studio</text>
+  <rect x="1197" y="62" width="90" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1242" y="77" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Enterprise Search</text>
+  <rect x="1293" y="62" width="80" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1333" y="77" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data Catalog</text>
+  <rect x="990" y="88" width="85" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1032" y="103" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data Refinery</text>
+
+  <!-- ═══ COLUMN 5b: Actionable Insight — ACTIVE ═══ -->
+  <rect x="860" y="130" width="330" height="355" rx="6" fill="#1565C0" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="1025" y="155" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white">Actionable Insight</text>
+  <!-- Product chips - all active -->
+  <rect x="875" y="168" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="945" y="183" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Watson Studio</text>
+  <rect x="1020" y="168" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1090" y="183" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">watsonx.ai</text>
+  <rect x="875" y="196" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="945" y="211" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Watson OpenScale</text>
+  <rect x="1020" y="196" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1090" y="211" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Watson ML</text>
+  <rect x="875" y="224" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="945" y="239" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Orchestration Pipelines</text>
+  <rect x="1020" y="224" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1090" y="239" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">SPSS Modeler</text>
+  <rect x="875" y="252" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="945" y="267" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Decision Optimization</text>
+  <rect x="1020" y="252" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1090" y="267" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Cognos Dashboards</text>
+  <rect x="875" y="280" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="945" y="295" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Cognos Analytics</text>
+  <rect x="1020" y="280" width="140" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1090" y="295" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Planning Analytics</text>
+
+  <!-- ═══ COLUMN 6: Business Process & Applications — ACTIVE ═══ -->
+  <rect x="1200" y="130" width="185" height="355" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="1292" y="156" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Business Process</text>
+  <text x="1292" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">&amp; Applications</text>
+  <rect x="1212" y="190" width="160" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1292" y="206" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Customer Insights</text>
+  <rect x="1212" y="220" width="160" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1292" y="236" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">New Business Models</text>
+  <rect x="1212" y="250" width="160" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1292" y="266" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Compliance &amp; Fraud</text>
+  <rect x="1212" y="280" width="160" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1292" y="296" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Planning &amp; Analysis</text>
+  <rect x="1212" y="310" width="160" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1292" y="326" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Security</text>
+  <rect x="1212" y="340" width="160" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="1292" y="356" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Operations</text>
+
+  <!-- ═══ Analytics In-Motion — ACTIVE ═══ -->
+  <rect x="200" y="492" width="650" height="43" rx="4" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="400" y="518" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Analytics In-Motion</text>
+  <rect x="540" y="500" width="90" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="585" y="515" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Apache Kafka</text>
+  <rect x="640" y="500" width="100" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="690" y="515" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Spark Streaming</text>
+
+  <!-- ═══ Governance — ACTIVE ═══ -->
+  <rect x="15" y="548" width="1370" height="42" rx="4" fill="#1565C0" stroke="#1976D2" stroke-width="0.5"/>
+  <text x="200" y="574" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Information and Model Management &amp; Governance</text>
+  <rect x="530" y="556" width="110" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="585" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Knowledge Catalog</text>
+  <rect x="650" y="556" width="85" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="692" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data Quality</text>
+  <rect x="745" y="556" width="95" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="792" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">MDM Match 360</text>
+
+  <!-- ═══ Security — always active ═══ -->
+  <rect x="15" y="596" width="1370" height="36" rx="4" fill="#64B5F6" stroke="#90CAF9" stroke-width="0.5"/>
+  <text x="700" y="620" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Security</text>
+
+  <!-- ═══ Platform — always active ═══ -->
+  <rect x="15" y="638" width="1370" height="36" rx="4" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="700" y="662" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Platform</text>
+
+  <!-- ═══ Infrastructure — always active ═══ -->
+  <rect x="15" y="680" width="1370" height="36" rx="4" fill="#0D47A1" stroke="#1565C0" stroke-width="0.5"/>
+  <text x="700" y="704" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Infrastructure</text>
+
+  <!-- ═══ GAP Callout Boxes ═══ -->
+  <rect x="15" y="720" width="260" height="32" rx="5" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="25" y="734" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#BF360C">GAP: Docling (ingestion)</text>
+  <text x="25" y="746" font-family="Inter, sans-serif" font-size="8" fill="#E65100">Layout-aware extraction not in ref arch</text>
+
+  <rect x="285" y="720" width="260" height="32" rx="5" fill="#FFF3E0" stroke="#E65100" stroke-width="1.5"/>
+  <text x="295" y="734" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#BF360C">GAP: MCP Context Forge</text>
+  <text x="295" y="746" font-family="Inter, sans-serif" font-size="8" fill="#E65100">Agent control plane not in ref arch</text>
+
+  <!-- Footer -->
+  <text x="900" y="750" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#8A93A0" letter-spacing="0.06em">BLOCK 2 · AI + INGESTION SWIMLANES + GAP CALLOUTS</text>
+</svg>
