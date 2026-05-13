@@ -240,7 +240,7 @@ def set_notes(slide, text: str):
     tf.text = text
 
 
-def add_footer(slide, chapter: str, page: int, total: int = 55):
+def add_footer(slide, chapter: str, page: int, total: int = 56):
     """Add a standard footer bar: chapter label left, page number right."""
     y = SLIDE_H - Inches(0.45)
     add_rule(slide, MARGIN_L, y, CONTENT_W, color=RULE, weight=0.75)
@@ -1739,6 +1739,207 @@ def make_slide_08e_fabric(prs):
             "discovery. This is where IBM's Knowledge Catalog plays. When the customer has a heterogeneous "
             "estate \u2014 Db2, Oracle, Iceberg, and a folder of PDFs \u2014 fabric is the answer. When "
             "they're greenfield single-cloud, it's overkill."
+        ),
+    )
+
+
+def make_slide_08f_pattern_comparison(prs):
+    """Slide 08f -- Side-by-side comparison of all five patterns."""
+    slide = add_slide(prs)
+
+    # Header
+    add_textbox(
+        slide,
+        MARGIN_L,
+        Inches(0.25),
+        CONTENT_W,
+        Inches(0.25),
+        "\u00a7 1.3 \u2014 PATTERN COMPARISON",
+        font_name=FONT_MONO,
+        size=8,
+        color=ACCENT,
+    )
+    add_textbox(
+        slide,
+        MARGIN_L,
+        Inches(0.50),
+        CONTENT_W,
+        Inches(0.4),
+        "Five patterns, side by side.",
+        font_name=FONT_DISPLAY,
+        size=24,
+        color=INK,
+        bold=True,
+    )
+
+    # 5 columns, one per pattern
+    PATTERNS = [
+        {
+            "name": "Warehouse",
+            "subtitle": "Schema on write",
+            "color": LANE_PALETTE["insight"]["bar"],  # indigo
+            "light": RGBColor(0xE4, 0xE7, 0xF7),
+            "layers": [
+                ("Consumption", ["Cognos BI", "Reports"]),
+                ("Storage", ["Db2 Warehouse", "Star schemas"]),
+                ("ETL", ["DataStage"]),
+                ("Governance", ["Knowledge Catalog", "Data Quality"]),
+                ("Sources", ["Structured only"]),
+            ],
+        },
+        {
+            "name": "Data Lake",
+            "subtitle": "Schema on read",
+            "color": LANE_PALETTE["motion"]["bar"],  # teal
+            "light": RGBColor(0xDE, 0xEA, 0xE9),
+            "layers": [
+                ("Consumption", ["BI, ML, DS"]),
+                ("Curated zone", ["Db2 WH (optional)"]),
+                ("Raw zone", ["Object storage", "Parquet, JSON"]),
+                ("ETL", ["DataStage, Spark"]),
+                ("Sources", ["Structured + unstruct"]),
+            ],
+        },
+        {
+            "name": "Lakehouse",
+            "subtitle": "One copy, all workloads",
+            "color": LANE_PALETTE["ingestion"]["bar"],  # violet
+            "light": RGBColor(0xE8, 0xE2, 0xF5),
+            "layers": [
+                ("Consumption", ["BI, ML, AI, RAG"]),
+                ("Query engines", ["Presto, Spark"]),
+                ("Table formats", ["Iceberg, Delta"]),
+                ("Object storage", ["S3 / COS"]),
+                ("Sources", ["All formats"]),
+            ],
+        },
+        {
+            "name": "Mesh",
+            "subtitle": "Domain-owned products",
+            "color": LANE_PALETTE["storage"]["bar"],  # blue
+            "light": RGBColor(0xE0, 0xE6, 0xFB),
+            "layers": [
+                ("Cross-domain", ["Customer 360"]),
+                ("Contracts", ["SLAs, schemas"]),
+                ("Domain lakehouses", ["Cards", "Retail", "Wealth"]),
+                ("Domain pipelines", ["Owned ETL"]),
+                ("Domain sources", ["Per-domain"]),
+            ],
+        },
+        {
+            "name": "Fabric",
+            "subtitle": "AI-driven governance",
+            "color": LANE_PALETTE["governance"]["bar"],  # ochre
+            "light": RGBColor(0xF2, 0xE4, 0xD2),
+            "layers": [
+                ("Discovery", ["Self-serve catalog"]),
+                ("AI metadata", ["Auto lineage", "Classification"]),
+                ("All patterns", ["WH + LH + Lake"]),
+                ("Policy routing", ["Governance-first"]),
+                ("Heterogeneous", ["Db2, Oracle, files"]),
+            ],
+        },
+    ]
+
+    n_cols = len(PATTERNS)
+    col_gap = Inches(0.15)
+    total_gap = col_gap * (n_cols - 1)
+    col_w = (CONTENT_W - total_gap) / n_cols
+    base_y = Inches(1.1)
+    col_h = Inches(5.4)
+
+    for ci, pat in enumerate(PATTERNS):
+        col_left = MARGIN_L + ci * (col_w + col_gap)
+        accent = pat["color"]
+        light = pat["light"]
+
+        # Column header
+        add_rect(slide, col_left, base_y, col_w, Inches(0.35), fill=accent)
+        add_textbox(
+            slide,
+            col_left + Inches(0.06),
+            base_y + Inches(0.02),
+            col_w - Inches(0.12),
+            Inches(0.18),
+            pat["name"],
+            font_name=FONT_MONO,
+            size=8,
+            color=WHITE,
+            bold=True,
+        )
+        add_textbox(
+            slide,
+            col_left + Inches(0.06),
+            base_y + Inches(0.18),
+            col_w - Inches(0.12),
+            Inches(0.14),
+            pat["subtitle"],
+            font_name=FONT_BODY,
+            size=6,
+            color=WHITE,
+        )
+
+        # Layers
+        layers = pat["layers"]
+        n_layers = len(layers)
+        arrow_gap = Inches(0.14)
+        total_arrows = (n_layers - 1) * arrow_gap
+        available = col_h - Inches(0.45) - total_arrows  # subtract header height
+        layer_h = available / n_layers
+        mid_x = col_left + col_w / 2
+
+        y = base_y + Inches(0.42)
+        for li, (label, items) in enumerate(layers):
+            # Layer box
+            add_rect(slide, col_left + Inches(0.04), y, col_w - Inches(0.08), layer_h, fill=light, line_color=accent)
+            # Label
+            add_textbox(
+                slide,
+                col_left + Inches(0.08),
+                y + Inches(0.02),
+                col_w - Inches(0.16),
+                Inches(0.14),
+                label,
+                font_name=FONT_MONO,
+                size=6,
+                color=accent,
+                bold=True,
+            )
+            # Items
+            item_y = y + Inches(0.16)
+            for item in items:
+                if item_y + Inches(0.12) > y + layer_h - Inches(0.02):
+                    break
+                add_textbox(
+                    slide,
+                    col_left + Inches(0.1),
+                    item_y,
+                    col_w - Inches(0.2),
+                    Inches(0.12),
+                    item,
+                    font_name=FONT_BODY,
+                    size=6,
+                    color=INK2,
+                )
+                item_y += Inches(0.12)
+
+            box_bottom = y + layer_h
+            y = box_bottom + arrow_gap
+
+            # Arrow
+            if li < n_layers - 1:
+                _add_arrow(slide, mid_x, box_bottom + Inches(0.02), box_bottom + arrow_gap - Inches(0.02), accent)
+
+    add_footer(slide, "Block 1 \u2014 Foundations", 13)
+
+    set_notes(
+        slide,
+        (
+            "Five patterns, one slide. This is the napkin diagram. Warehouse is structured, schema-on-write. "
+            "Lake is cheap and raw, schema-on-read. Lakehouse adds ACID and time travel to the lake. "
+            "Mesh is domain ownership with contracts. Fabric is the AI governance meta-layer. "
+            "Most banks run at least three of these simultaneously. The question isn't which one \u2014 "
+            "it's which combination, and where each pattern's responsibilities end."
         ),
     )
 
@@ -3415,7 +3616,8 @@ SLIDE_BUILDERS = [
     make_slide_08c_lakehouse,  # 10 (08c)
     make_slide_08d_mesh,  # 11 (08d)
     make_slide_08e_fabric,  # 12 (08e)
-    make_slide_09_cameo_warehouse,  # 13
+    make_slide_08f_pattern_comparison,  # 13 (08f) — side-by-side comparison
+    make_slide_09_cameo_warehouse,  # 14
     make_slide_10_cameo_virtualization,  # 14
     make_slide_11_mdm,  # 15
     make_slide_12_ibm_stack,  # 16
@@ -3484,8 +3686,8 @@ def build_deck() -> Path:
     print(f"  Slides : {slide_count}")
     print(f"  Size   : {file_size:,} bytes ({file_size / 1024:.0f} KB)")
 
-    if slide_count != 55:
-        print(f"  WARNING: expected 55 slides, got {slide_count}")
+    if slide_count != 56:
+        print(f"  WARNING: expected 56 slides, got {slide_count}")
     if file_size < 100_000:
         print(f"  WARNING: file is under 100 KB ({file_size:,} bytes)")
 
