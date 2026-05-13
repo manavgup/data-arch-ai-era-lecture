@@ -1284,14 +1284,14 @@ def make_slide_08g_synthesis_matrix(prs):
         header_font=FONT_MONO,
         header_size=9,
         body_font=FONT_MONO,
-        body_size=14,
+        body_size=12,
     )
 
     # Legend
     add_textbox(
         slide,
         MARGIN_L,
-        Inches(5.6),
+        Inches(6.2),
         CONTENT_W,
         Inches(0.3),
         "\u25cf Strong fit    \u25d0 Possible    \u25cb Wrong tool",
@@ -1356,11 +1356,11 @@ def make_slide_08h_pros_cons(prs):
     ]
 
     col_w = Inches(3.7)
-    row_h = Inches(2.2)
+    row_h = Inches(1.8)
     gap_x = Inches(0.3)
-    gap_y = Inches(0.15)
+    gap_y = Inches(0.25)
     base_x = MARGIN_L
-    base_y = Inches(1.8)
+    base_y = Inches(1.75)
 
     for i, (name, pros, cons) in enumerate(patterns):
         col = i % 3
@@ -1607,24 +1607,9 @@ def make_slide_12_ibm_stack(prs):
 
 
 def make_slide_13_annotated1(prs):
-    """Slide 13 -- Annotated Diagram #1: Storage + Access."""
+    """Slide 13 -- Annotated Diagram #1: Storage + Access (SVG-based overlay)."""
     slide = add_slide(prs)
-
-    add_textbox(
-        slide,
-        MARGIN_L,
-        Inches(0.3),
-        CONTENT_W,
-        Inches(0.5),
-        "Annotated Diagram #1 \u2014 Storage + Access",
-        font_name=FONT_DISPLAY,
-        size=PT_SUBTITLE,
-        color=INK,
-        bold=True,
-    )
-    add_diagram_or_placeholder(
-        slide, "refarch-block1.png", "Annotated Ref-Arch: Storage + Access lanes lit", top=Inches(1.0)
-    )
+    add_diagram_or_placeholder(slide, "refarch-annotated1-overlay.png", "Block 1: Storage + Access", top=Inches(0.1))
     add_footer(slide, "Block 1 \u2014 Foundations", 17)
 
     set_notes(
@@ -2137,24 +2122,9 @@ def make_slide_26_notebook_teaser(prs):
 
 
 def make_slide_27_annotated2(prs):
-    """Slide 27 -- Annotated Diagram #2: AI + Ingestion."""
+    """Slide 27 -- Annotated Diagram #2: AI + Ingestion (SVG-based overlay)."""
     slide = add_slide(prs)
-
-    add_textbox(
-        slide,
-        MARGIN_L,
-        Inches(0.3),
-        CONTENT_W,
-        Inches(0.5),
-        "Annotated Diagram #2 \u2014 AI + Ingestion",
-        font_name=FONT_DISPLAY,
-        size=PT_SUBTITLE,
-        color=INK,
-        bold=True,
-    )
-    add_diagram_or_placeholder(
-        slide, "refarch-block2.png", "Annotated Ref-Arch: AI + Ingestion lanes lit", top=Inches(1.0)
-    )
+    add_diagram_or_placeholder(slide, "refarch-annotated2-overlay.png", "Block 2: AI + Ingestion", top=Inches(0.1))
     add_footer(slide, "Block 2 \u2014 AI-Era", 31)
 
     set_notes(
@@ -2572,23 +2542,10 @@ def make_slide_37_threat_model(prs):
 
 
 def make_slide_38_annotated3(prs):
-    """Slide 38 -- Annotated Diagram #3: Governance + Security + Deploy."""
+    """Slide 38 -- Annotated Diagram #3: Governance + Security + Deploy (SVG-based overlay)."""
     slide = add_slide(prs)
-
-    add_textbox(
-        slide,
-        MARGIN_L,
-        Inches(0.3),
-        CONTENT_W,
-        Inches(0.5),
-        "Annotated Diagram #3 \u2014 Governance + Security + Deploy",
-        font_name=FONT_DISPLAY,
-        size=PT_SUBTITLE,
-        color=INK,
-        bold=True,
-    )
     add_diagram_or_placeholder(
-        slide, "refarch-block3.png", "Annotated Ref-Arch: Governance + Security + Deploy bands lit", top=Inches(1.0)
+        slide, "refarch-annotated3-overlay.png", "Block 3: Governance + Security + Deploy", top=Inches(0.1)
     )
     add_footer(slide, "Block 3 \u2014 Governance", 42)
 
@@ -3083,14 +3040,14 @@ SLIDE_BUILDERS = [
     make_slide_02_hook,  # 2
     make_slide_03_refarch,  # 3
     make_slide_03b_refarch_detail,  # 3b — ref-arch with IBM products
-    make_slide_03c_warehouse_overlay,  # 3c — warehouse pattern on ref-arch
     make_slide_04_roles,  # 4
     # Block 1 — Foundations (05-14 + 08b-08e)
     make_slide_05_divider_foundations,  # 5
     make_slide_06_reinvention,  # 6
     make_slide_07_primitives,  # 7
     make_slide_08_decoder_ring,  # 8
-    make_slide_08b_lake,  # 9  (08b)
+    make_slide_03c_warehouse_overlay,  # 9 — warehouse pattern on ref-arch
+    make_slide_08b_lake,  # 10 (08b)
     make_slide_08c_lakehouse,  # 10 (08c)
     make_slide_08d_mesh,  # 11 (08d)
     make_slide_08e_fabric,  # 12 (08e)

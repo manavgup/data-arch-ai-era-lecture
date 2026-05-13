@@ -1,0 +1,151 @@
+<svg width="100%" viewBox="0 0 1400 760" xmlns="http://www.w3.org/2000/svg">
+  <title>Block 1 — Storage + Access Swimlanes</title>
+
+  <rect width="1400" height="760" fill="#F4F2EC"/>
+
+  <!-- Title -->
+  <text x="700" y="28" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="400" fill="#15171A">Block 1 — Storage + Access Swimlanes</text>
+  <text x="700" y="46" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#5C6470">What Block 1 covered · Highlighted in blue</text>
+
+  <!-- ═══ COLUMN 1: Data Sources — ALL ACTIVE ═══ -->
+  <rect x="15" y="55" width="150" height="480" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="90" y="78" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Data Sources</text>
+
+  <!-- All sources active -->
+  <rect x="25" y="92" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="112" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Machine &amp; Sensor</text>
+  <rect x="25" y="126" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="146" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Image &amp; Video</text>
+  <rect x="25" y="160" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="180" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Content Services</text>
+  <rect x="25" y="194" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="214" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Social Data</text>
+  <rect x="25" y="228" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="248" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Internet Data Sets</text>
+  <rect x="25" y="262" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="282" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Weather Data</text>
+  <rect x="25" y="296" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="316" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Commercial Data Sets</text>
+  <rect x="25" y="330" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="350" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Third-Party Data</text>
+  <rect x="25" y="364" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="384" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Transactional Data</text>
+  <rect x="25" y="398" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="418" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">Application Data</text>
+  <rect x="25" y="432" width="130" height="30" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="1"/>
+  <text x="90" y="452" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#002B80">System of Record</text>
+
+  <!-- Vertical label -->
+  <rect x="168" y="55" width="22" height="480" rx="3" fill="#E3F2FD" stroke="#90CAF9" stroke-width="0.5"/>
+  <text x="179" y="320" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#1565C0" transform="rotate(-90,179,320)">Data acquisition &amp; application access</text>
+
+  <!-- ═══ COLUMN 2: Ingestion & Integration — ACTIVE ═══ -->
+  <rect x="200" y="55" width="130" height="430" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="265" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Ingestion &amp;</text>
+  <text x="265" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Integration</text>
+  <!-- Product chips -->
+  <rect x="210" y="115" width="110" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="265" y="131" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">DataStage</text>
+  <rect x="210" y="145" width="110" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="265" y="161" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Data Replication</text>
+  <rect x="210" y="175" width="110" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="265" y="191" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Data Integration</text>
+  <rect x="210" y="205" width="110" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="265" y="221" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Presto connector</text>
+  <rect x="210" y="235" width="110" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="265" y="251" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#002B80">Connectivity</text>
+
+  <!-- ═══ COLUMN 3: Analytical Storage — ACTIVE ═══ -->
+  <rect x="340" y="55" width="380" height="430" rx="6" fill="#1565C0" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="530" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Analytical Data Management &amp; Storage</text>
+
+  <!-- Sub-box: On Software Hub -->
+  <rect x="350" y="95" width="175" height="200" rx="4" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.3)" stroke-width="0.5"/>
+  <text x="437" y="113" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="white">On Software Hub</text>
+  <rect x="358" y="120" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="438" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">watsonx.data</text>
+  <rect x="358" y="146" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="438" y="161" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Db2</text>
+  <rect x="358" y="172" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="438" y="187" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Db2 Warehouse (SMP, MPP)</text>
+  <rect x="358" y="198" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="438" y="213" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">MongoDB</text>
+  <rect x="358" y="224" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="438" y="239" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">EDB PostgreSQL</text>
+  <rect x="358" y="250" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="438" y="265" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Informix</text>
+
+  <!-- Sub-box: Outside Software Hub -->
+  <rect x="535" y="95" width="175" height="200" rx="4" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.25)" stroke-width="0.5"/>
+  <text x="622" y="113" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="white">Outside Software Hub</text>
+  <rect x="543" y="120" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="623" y="135" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Db2 for z/OS</text>
+  <rect x="543" y="146" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="623" y="161" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Oracle, Teradata</text>
+  <rect x="543" y="172" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="623" y="187" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">MS SQL, PostgreSQL</text>
+  <rect x="543" y="198" width="160" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="623" y="213" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Cloud Object Storage</text>
+
+  <!-- ═══ COLUMN 4: Data Access — ACTIVE ═══ -->
+  <rect x="730" y="55" width="120" height="430" rx="6" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="790" y="78" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Data Access</text>
+  <!-- Product chips -->
+  <rect x="740" y="100" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="116" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data Virtualization</text>
+  <rect x="740" y="130" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="146" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Apache Spark SQL</text>
+  <rect x="740" y="160" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Hadoop Execution</text>
+  <rect x="740" y="190" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="206" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Iceberg/Delta/Milvus</text>
+  <rect x="740" y="220" width="100" height="24" rx="4" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="790" y="236" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Connectivity</text>
+
+  <!-- ═══ COLUMN 5a: Discovery & Exploration — DIMMED ═══ -->
+  <rect x="860" y="55" width="525" height="65" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="1122" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="16" font-weight="700" fill="white" opacity="0.4">Discovery &amp; Exploration</text>
+
+  <!-- ═══ COLUMN 5b: Actionable Insight — DIMMED ═══ -->
+  <rect x="860" y="130" width="330" height="355" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="1025" y="310" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" opacity="0.4">Actionable</text>
+  <text x="1025" y="330" text-anchor="middle" font-family="Inter, sans-serif" font-size="14" font-weight="700" fill="white" opacity="0.4">Insight</text>
+
+  <!-- ═══ COLUMN 6: Business Process & Applications — DIMMED ═══ -->
+  <rect x="1200" y="130" width="185" height="355" rx="6" fill="#B0BEC5" stroke="#CFD8DC" stroke-width="0.5" opacity="0.4"/>
+  <text x="1292" y="300" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white" opacity="0.4">Business Process</text>
+  <text x="1292" y="318" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white" opacity="0.4">&amp; Applications</text>
+
+  <!-- ═══ Analytics In-Motion — ACTIVE ═══ -->
+  <rect x="200" y="492" width="650" height="43" rx="4" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="400" y="516" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Analytics In-Motion</text>
+  <rect x="540" y="500" width="90" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="585" y="515" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Apache Kafka</text>
+  <rect x="640" y="500" width="100" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="690" y="515" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Spark Streaming</text>
+
+  <!-- ═══ Governance — ACTIVE ═══ -->
+  <rect x="15" y="548" width="1370" height="42" rx="4" fill="#1565C0" stroke="#1976D2" stroke-width="0.5"/>
+  <text x="200" y="574" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="white">Information and Model Management &amp; Governance</text>
+  <rect x="530" y="556" width="110" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="585" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Knowledge Catalog</text>
+  <rect x="650" y="556" width="85" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="692" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">Data Quality</text>
+  <rect x="745" y="556" width="95" height="22" rx="3" fill="#D0E2FF" stroke="#8DB4F0" stroke-width="0.5"/>
+  <text x="792" y="571" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#002B80">MDM Match 360</text>
+
+  <!-- ═══ Security — always active ═══ -->
+  <rect x="15" y="596" width="1370" height="36" rx="4" fill="#64B5F6" stroke="#90CAF9" stroke-width="0.5"/>
+  <text x="700" y="620" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Security</text>
+
+  <!-- ═══ Platform — always active ═══ -->
+  <rect x="15" y="638" width="1370" height="36" rx="4" fill="#1E88E5" stroke="#42A5F5" stroke-width="0.5"/>
+  <text x="700" y="662" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Platform</text>
+
+  <!-- ═══ Infrastructure — always active ═══ -->
+  <rect x="15" y="680" width="1370" height="36" rx="4" fill="#0D47A1" stroke="#1565C0" stroke-width="0.5"/>
+  <text x="700" y="704" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="white">Infrastructure</text>
+
+  <!-- Footer -->
+  <text x="700" y="740" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#8A93A0" letter-spacing="0.06em">BLOCK 1 · STORAGE + ACCESS SWIMLANES HIGHLIGHTED</text>
+</svg>
