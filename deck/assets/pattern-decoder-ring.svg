@@ -1,0 +1,135 @@
+<svg width="100%" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+  <title>Pattern Decoder Ring — Six Data Architecture Patterns</title>
+  <defs>
+    <!-- Outer ring gradient for each segment -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.15)"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="1000" fill="#F4F2EC"/>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- OUTER RING: Pattern names (6 segments, 60° each)          -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- Segment 1: Warehouse (top, 12 o'clock) — deep blue -->
+  <path d="M500,500 L500,80 A420,420 0 0,1 863,210 Z" fill="rgb(12,68,124)" stroke="white" stroke-width="2"/>
+  <text x="620" y="165" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="white" transform="rotate(30,620,165)">WAREHOUSE</text>
+  <text x="610" y="192" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgb(181,212,244)" transform="rotate(30,610,192)">Schema on write</text>
+
+  <!-- Segment 2: Data Lake (2 o'clock) — teal -->
+  <path d="M500,500 L863,210 A420,420 0 0,1 863,790 Z" fill="rgb(8,80,65)" stroke="white" stroke-width="2"/>
+  <text x="810" y="490" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="white" transform="rotate(90,810,490)">DATA LAKE</text>
+  <text x="780" y="490" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgb(159,225,203)" transform="rotate(90,780,490)">Schema on read</text>
+
+  <!-- Segment 3: Lakehouse (4 o'clock) — violet -->
+  <path d="M500,500 L863,790 A420,420 0 0,1 500,920 Z" fill="rgb(60,52,137)" stroke="white" stroke-width="2"/>
+  <text x="680" y="830" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="white" transform="rotate(150,680,830)">LAKEHOUSE</text>
+  <text x="660" y="805" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgb(206,203,246)" transform="rotate(150,660,805)">ACID + open formats</text>
+
+  <!-- Segment 4: Virtualization (6 o'clock) — dark cyan -->
+  <path d="M500,500 L500,920 A420,420 0 0,1 137,790 Z" fill="rgb(0,77,115)" stroke="white" stroke-width="2"/>
+  <text x="370" y="845" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="white" transform="rotate(210,370,845)">VIRTUALIZATION</text>
+  <text x="385" y="820" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgb(100,181,220)" transform="rotate(210,385,820)">No data movement</text>
+
+  <!-- Segment 5: Data Mesh (8 o'clock) — signal blue -->
+  <path d="M500,500 L137,790 A420,420 0 0,1 137,210 Z" fill="rgb(45,74,222)" stroke="white" stroke-width="2"/>
+  <text x="190" y="500" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="white" transform="rotate(270,190,500)">DATA MESH</text>
+  <text x="220" y="500" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgb(190,200,250)" transform="rotate(270,220,500)">Domain ownership</text>
+
+  <!-- Segment 6: Data Fabric (10 o'clock) — ochre -->
+  <path d="M500,500 L137,210 A420,420 0 0,1 500,80 Z" fill="rgb(120,60,0)" stroke="white" stroke-width="2"/>
+  <text x="325" y="170" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="700" fill="white" transform="rotate(330,325,170)">DATA FABRIC</text>
+  <text x="340" y="195" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="rgb(240,210,160)" transform="rotate(330,340,195)">AI governance layer</text>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- MIDDLE RING: "Best For" use cases                         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <!-- White ring background -->
+  <circle cx="500" cy="500" r="310" fill="none" stroke="white" stroke-width="80" opacity="0.9"/>
+  <circle cx="500" cy="500" r="350" fill="none" stroke="rgba(200,200,200,0.3)" stroke-width="1"/>
+  <circle cx="500" cy="500" r="270" fill="none" stroke="rgba(200,200,200,0.3)" stroke-width="1"/>
+
+  <!-- Best-for labels (positioned in middle ring, matching each segment) -->
+  <!-- Warehouse -->
+  <text x="545" y="210" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="rgb(12,68,124)" font-weight="600">Regulatory BI</text>
+  <text x="545" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Stable schemas</text>
+  <text x="545" y="244" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Audit trails</text>
+
+  <!-- Lake -->
+  <text x="760" y="370" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="rgb(8,80,65)" font-weight="600">ML training sets</text>
+  <text x="760" y="388" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Cheap raw storage</text>
+  <text x="760" y="404" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">All data types</text>
+
+  <!-- Lakehouse -->
+  <text x="700" y="660" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="rgb(60,52,137)" font-weight="600">Unified analytics + ML</text>
+  <text x="700" y="678" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Open formats (Iceberg)</text>
+  <text x="700" y="694" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Time travel, ACID</text>
+
+  <!-- Virtualization -->
+  <text x="420" y="775" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="rgb(0,77,115)" font-weight="600">Federated queries</text>
+  <text x="420" y="793" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Data residency</text>
+  <text x="420" y="809" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">No data movement</text>
+
+  <!-- Mesh -->
+  <text x="245" y="610" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="rgb(45,74,222)" font-weight="600">Domain teams</text>
+  <text x="245" y="628" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Data products</text>
+  <text x="245" y="644" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Scale with org</text>
+
+  <!-- Fabric -->
+  <text x="290" y="330" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" fill="rgb(120,60,0)" font-weight="600">Heterogeneous estates</text>
+  <text x="290" y="348" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">AI-driven metadata</text>
+  <text x="290" y="364" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470">Self-serve discovery</text>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- INNER RING: Anti-patterns (red/warn tint)                 -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <circle cx="500" cy="500" r="200" fill="none" stroke="rgba(184,92,0,0.1)" stroke-width="60"/>
+  <circle cx="500" cy="500" r="230" fill="none" stroke="rgba(200,200,200,0.2)" stroke-width="1"/>
+  <circle cx="500" cy="500" r="170" fill="none" stroke="rgba(200,200,200,0.2)" stroke-width="1"/>
+
+  <!-- Anti-pattern labels (inner ring, matching segments) -->
+  <!-- Warehouse anti -->
+  <text x="520" y="310" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#B85C00" font-weight="500">✗ Unstructured / AI</text>
+
+  <!-- Lake anti -->
+  <text x="660" y="420" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#B85C00" font-weight="500">✗ Needs ACID</text>
+
+  <!-- Lakehouse anti -->
+  <text x="630" y="590" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#B85C00" font-weight="500">✗ Sub-ms OLTP</text>
+
+  <!-- Virtualization anti -->
+  <text x="440" y="690" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#B85C00" font-weight="500">✗ Heavy scans</text>
+
+  <!-- Mesh anti -->
+  <text x="340" y="560" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#B85C00" font-weight="500">✗ No product thinking</text>
+
+  <!-- Fabric anti -->
+  <text x="370" y="395" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#B85C00" font-weight="500">✗ Greenfield single-cloud</text>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- CENTER: Title hub                                         -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+
+  <circle cx="500" cy="500" r="130" fill="#F4F2EC" stroke="rgb(200,200,200)" stroke-width="1.5"/>
+  <circle cx="500" cy="500" r="120" fill="white" stroke="rgb(220,220,220)" stroke-width="1" filter="url(#shadow)"/>
+
+  <text x="500" y="470" text-anchor="middle" font-family="Georgia, serif" font-size="24" font-weight="400" fill="#15171A">Pattern</text>
+  <text x="500" y="500" text-anchor="middle" font-family="Georgia, serif" font-size="24" font-weight="400" fill="#15171A">Decoder</text>
+  <text x="500" y="530" text-anchor="middle" font-family="Georgia, serif" font-size="24" font-weight="400" fill="#15171A">Ring</text>
+  <text x="500" y="560" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" fill="#5C6470" letter-spacing="0.08em">6 PATTERNS · 1 CHEAT SHEET</text>
+
+  <!-- Compass dots at cardinal points -->
+  <circle cx="500" cy="78" r="4" fill="rgb(12,68,124)"/>
+  <circle cx="922" cy="500" r="4" fill="rgb(8,80,65)"/>
+  <circle cx="500" cy="922" r="4" fill="rgb(60,52,137)"/>
+  <circle cx="78" cy="500" r="4" fill="rgb(45,74,222)"/>
+
+  <!-- Ring labels -->
+  <text x="500" y="45" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#8A93A0" letter-spacing="0.12em">OUTER: PATTERN</text>
+  <text x="500" y="960" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#8A93A0" letter-spacing="0.12em">MIDDLE: BEST FOR · INNER: ANTI-PATTERN</text>
+</svg>
